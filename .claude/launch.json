@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "werkstatt-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "web", "-p", "4173", "-c-1"],
+      "port": 4173
+    }
+  ]
+}
