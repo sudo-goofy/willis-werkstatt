@@ -4,6 +4,8 @@ Das digitale Büro der Werkstatt: eine kleine Web-App, die alles Wichtige rund u
 gemeinschaftliche Werkstatt an einem Ort bündelt – Regeln, Sicherheit, Geräte und der
 Ablauf vor Ort. Motto: **Safety First.**
 
+**Live:** <https://sudo-goofy.github.io/willis-werkstatt/>
+
 ## Was drin ist
 
 - **Intro** – Begrüßung und die wichtigsten Sicherheitsregeln auf einen Blick.
@@ -28,4 +30,7 @@ und Lucide Icons direkt über CDN.
 
 ## Starten
 
-Einfach `web/index.html` im Browser öffnen. Für eine lokale Adresse alternativ:
+Online: <https://sudo-goofy.github.io/willis-werkstatt/> (gehostet über GitHub Pages,
+Branch `main`).
+
+Lokal: einfach `web/index.html` im Browser öffnen. Für eine lokale Adresse alternativ:

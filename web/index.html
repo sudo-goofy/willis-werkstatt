@@ -59,32 +59,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .check-container input { display: none; }
-        .check-container .checkmark {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #000;
-            border-radius: 8px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 2px 2px 0px #000;
-            transition: all 0.1s;
-        }
-        .check-container input:checked + .checkmark {
-            background: #FFD700; 
-        }
-        .check-container input:checked + .checkmark::after {
-            content: '✔';
-            font-size: 24px;
-            font-weight: bold;
-            color: #000;
-        }
-        .check-container input:checked ~ .check-text {
-            text-decoration: line-through;
-            opacity: 0.5;
-        }
 
         .nav-btn.active-nav {
             background-color: #FFD700;
@@ -182,9 +156,9 @@
                 <!-- Freundliches, weiches Grinsen -->
                 <path d="M 30 56 Q 50 78 70 56" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" />
             </svg>
-                    <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4 leading-none">Safety First, Leute!</h2>
+                    <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4 leading-none">Willkommen in Willis Werkstatt!</h2>
                     <p class="text-lg md:text-xl font-semibold mb-6 border-t-3 border-black pt-4" style="border-top: 3px solid #000;">
-                        Willkommen in Willis Werkstatt. Damit wir alle mit zehn Fingern wieder nach Hause gehen, gibt es Regeln. Kurz, schmerzlos, wichtig.
+                        Hier werkelt unsere Gemeinschaft sicher und kreativ. Hier findest du alle wichtigen Regeln und Infos für ein gutes Miteinander.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <button onclick="switchView('konzept')" class="brutal-btn bg-white text-black text-lg px-6 py-3 flex justify-center items-center gap-3">
@@ -200,47 +174,155 @@
 
         <!-- ==================== VIEW: KONZEPT (NEU) ==================== -->
         <section id="view-konzept" class="view">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="bg-blue-300 p-2 brutal-box box-shadow-none" style="box-shadow: 2px 2px 0px #000;">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-blue-300 p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #000;">
                     <i data-lucide="book-open" class="w-8 h-8" stroke-width="2.5"></i>
                 </div>
-                <h2 class="text-3xl font-bold uppercase tracking-tight">Wie der Hase läuft</h2>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Unser Konzept</h2>
+                    <p class="text-base md:text-lg font-semibold text-gray-700">Die wichtigsten Regeln &amp; Rahmenbedingungen auf einen Blick</p>
+                </div>
             </div>
 
-            <p class="text-lg font-semibold mb-4 max-w-3xl">Willis Werkstatt ist für alle Bewohnis da. Damit das Chaos ausbleibt und die Finger dran bleiben, haben wir drei einfache Grundpfeiler.</p>
+            <!-- Quick Facts Banderole -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="clock" class="w-6 h-6 text-blue-600 shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zeiten</span>
+                        <span class="font-bold text-sm leading-tight block">09:00–19:00 Uhr</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="key-round" class="w-6 h-6 text-yellow-600 shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zugang</span>
+                        <span class="font-bold text-sm leading-tight block">Ab 18 J. + Einweisung</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="piggy-bank" class="w-6 h-6 text-green-600 shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Kosten</span>
+                        <span class="font-bold text-sm leading-tight block">Kostenlos (Bewohner)</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="calendar-off" class="w-6 h-6 text-purple-600 shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Termine</span>
+                        <span class="font-bold text-sm leading-tight block">Kein Slot nötig</span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <!-- Zugang & Schlüssel -->
-                <div class="brutal-box p-5 bg-[#fff9e6] flex flex-col h-full">
-                    <i data-lucide="key" class="w-10 h-10 mb-2 text-yellow-500"></i>
-                    <h3 class="text-xl font-black uppercase mb-2">1. Der Zugang</h3>
-                    <ul class="space-y-2 font-semibold text-base flex-grow">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Ab 16 Jahren</b> darfst du hier nach einer Einweisung alleine werkeln.</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Kinder &amp; Jugendliche</b> nur in Begleitung Erwachsener (und nur grüne Geräte!).</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Schlüssel:</b> Liegt im Tresor im Foyer. Den Zahlencode bekommst du bei der Einweisung.</span></li>
-                    </ul>
+            <!-- Nutzungsvereinbarung Box -->
+            <div class="brutal-box p-5 bg-yellow-100 mb-8 border-3 border-black">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-black shrink-0" stroke-width="2.5"></i>
+                    <h3 class="text-xl font-black uppercase tracking-tight">Grundsatz für die Werkstattnutzung</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-semibold text-sm md:text-base">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                        <span class="text-xl shrink-0">📜</span>
+                        <span><b>Einverständnis:</b> Mit Nutzung akzeptierst du dieses Nutzungskonzept &amp; alle Vorgaben.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                        <span class="text-xl shrink-0">🛠️</span>
+                        <span><b>Werkzeugkunde:</b> Nur Werkzeuge nutzen, deren Gefahren &amp; Einsatz dir bekannt sind.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                        <span class="text-xl shrink-0">🧹</span>
+                        <span><b>Sorgfalt &amp; Ordnung:</b> Auf Mitmenschen achten &amp; Werkstatt sauber hinterlassen.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                        <span class="text-xl shrink-0">⚠️</span>
+                        <span><b>Schäden &amp; Risiken:</b> Sofort kennzeichnen &amp; mit Werkstattwart*innen absprechen.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Die 3 Säulen -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- 1. Zugang -->
+                <div class="brutal-box p-6 bg-[#fff9e6] flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="key" class="w-8 h-8 text-yellow-600" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black uppercase">1. Zugang</h3>
+                            </div>
+                        </div>
+                        
+                        <ul class="space-y-3 font-semibold text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <span><b>Bewohner*innen (ab 18):</b> Selbstständig nach Einweisung (Kategorie Grün). Für Kategorie Blau ist eine Zusatz-Einweisung nötig.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <span><b>Kinder, Jugend &amp; Gäste:</b> Nur mit Aufsicht unterwiesener Erwachsener (beschränkt auf Kategorie Grün).</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <span><b>Minderjährige:</b> Gilt RISU-Orientierung (<a href="../uvv/UVV-Handbuch-2025-onlineversion.pdf" target="_blank" rel="noopener" class="underline font-bold hover:text-blue-700">Handbuch S. 48</a>).</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Keine Buchung -->
-                <div class="brutal-box p-5 bg-[#e6f2ff] flex flex-col h-full">
-                    <i data-lucide="calendar-x" class="w-10 h-10 mb-2 text-blue-500"></i>
-                    <h3 class="text-xl font-black uppercase mb-2">2. Keine Slots</h3>
-                    <ul class="space-y-2 font-semibold text-base flex-grow">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Einfach vorbeikommen!</b> Keine nervige Terminbuchung.</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Gemeinsam bauen:</b> Plaudern und zusammenarbeiten ist ausdrücklich erwünscht.</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Ausnahme:</b> Riesen-Projekte (wie Hochbeetbau) bitte im analogen Kalender vor Ort eintragen.</span></li>
-                    </ul>
+                <!-- 2. Nutzungszeiten -->
+                <div class="brutal-box p-6 bg-[#e6f2ff] flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="clock" class="w-8 h-8 text-blue-600" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black uppercase">2. Zeiten</h3>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 font-semibold text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="volume-2" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <span><b>Laute Arbeiten:</b> 09:00 – 19:00 Uhr (Sonntagsruhe). Tür bitte geschlossen halten.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="users" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <span><b>Keine Slots:</b> Ohne Buchung vorbeikommen. Raum für Austausch &amp; Miteinander.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="calendar" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <span><b>Große Projekte:</b> Bei viel Platzbedarf im Wandkalender vor Ort vormerken.</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Geld & Spenden -->
-                <div class="brutal-box p-5 bg-[#e6ffe6] flex flex-col h-full">
-                    <i data-lucide="piggy-bank" class="w-10 h-10 mb-2 text-green-600"></i>
-                    <h3 class="text-xl font-black uppercase mb-2">3. Die Kohle</h3>
-                    <ul class="space-y-2 font-semibold text-base flex-grow">
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Erstausstattung</b> wurde über Gemeinschaftsgeld besorgt.</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Verschleißteile</b> (Schleifpapier, Sägeblätter) finanzieren wir über die Spendenbox in der Werkstatt.</span></li>
-                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-1 shrink-0 text-green-600"></i> <span class="min-w-0"><b>Richtwerte</b> dafür hängen direkt an der Kasse!</span></li>
-                    </ul>
+                <!-- 3. Finanzierung -->
+                <div class="brutal-box p-6 bg-[#e6ffe6] flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="piggy-bank" class="w-8 h-8 text-green-600" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black uppercase">3. Kosten</h3>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 font-semibold text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="heart-handshake" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <span><b>Bewohner*innen:</b> Kostenlos. Spenden für Verschleiß in Spendenbox / PayPal-Pool.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="user-check" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <span><b>Gäste &amp; Nachbarn:</b> Stundenbasierte Spendenempfehlung + Materialkosten.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="sparkles" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <span><b>Workshops:</b> Spenden zur Deckung von Zeit, Ausstattung &amp; Material.</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -260,15 +342,46 @@
                 <h2 class="text-3xl font-bold uppercase tracking-tight">Dein Check-In</h2>
             </div>
 
-            <p class="text-lg font-semibold mb-5 max-w-2xl">Pflichtprogramm vor dem ersten Maschinenschalter. Hake ab, was erledigt ist.</p>
+            <p class="text-lg font-semibold mb-5 max-w-2xl">Kurzer Sicherheits-Check vor dem Start. Bitte einmal durchgehen:</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="checklist-container">
-                <!-- Generiert via JS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Passende Kleidung (keine losen Bänder/Schals)</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Lange Haare zusammengebunden</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Festes Schuhwerk getragen</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Schutzbrille &amp; Gehörschutz bereit</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Werkstück sicher eingespannt</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Fit und aufmerksam (kein Alkohol)</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Arbeitsplatz aufgeräumt</span>
+                </div>
+                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
+                    <span class="font-bold text-lg leading-tight">Not-Aus-Schalter bekannt</span>
+                </div>
             </div>
 
             <div class="mt-6 text-center">
-                <button id="btn-to-maschinen" onclick="switchView('maschinen')" class="brutal-btn bg-black text-white text-lg px-6 py-3 opacity-50 cursor-not-allowed transition-opacity" disabled>
-                    Erst alles abhaken!
+                <button onclick="switchView('maschinen')" class="brutal-btn bg-black text-white text-lg px-6 py-3 inline-flex items-center gap-2">
+                    Weiter zu den Geräten <i data-lucide="arrow-right"></i>
                 </button>
             </div>
         </section>
@@ -412,90 +525,47 @@
             window.scrollTo(0, 0);
         }
 
-        // --- 2. CHECKLISTE ---
-        const checkItems = [
-            "Geeignete Kleidung an? (Keine Schals/Bänder)",
-            "Lange Haare sicher zusammengebunden?",
-            "Festes Schuhwerk an den Füßen?",
-            "Schutzbrille & Gehörschutz am Start?",
-            "Werkstück sicher einspannbar?",
-            "Kopf klar? (Kein Alk, keine Übermüdung)",
-            "Werkstatt ist aufgeräumt?",
-            "Weißt du, wo der Not-Aus ist?"
-        ];
-
-        const checklistContainer = document.getElementById('checklist-container');
-        let checkedCount = 0;
-
-        checkItems.forEach((item, index) => {
-            const html = `
-                <label class="check-container brutal-box p-3 md:p-4 flex items-center gap-4 cursor-pointer hover:bg-gray-50">
-                    <input type="checkbox" onchange="updateChecklist(this)">
-                    <div class="checkmark"></div>
-                    <span class="check-text font-bold text-lg leading-tight select-none">${item}</span>
-                </label>
-            `;
-            checklistContainer.innerHTML += html;
-        });
-
-        function updateChecklist(checkbox) {
-            checkedCount += checkbox.checked ? 1 : -1;
-            const btn = document.getElementById('btn-to-maschinen');
-            if (checkedCount === checkItems.length) {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-black', 'text-white');
-                btn.classList.add('bg-green-400', 'text-black', 'hover:bg-green-500');
-                btn.innerHTML = `Alles klar! Zu den Geräten <i data-lucide="arrow-right" class="w-6 h-6 inline"></i>`;
-                renderIcons();
-            } else {
-                btn.disabled = true;
-                btn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-black', 'text-white');
-                btn.classList.remove('bg-green-400', 'text-black', 'hover:bg-green-500');
-                btn.innerHTML = `Erst alles abhaken! (${checkedCount}/${checkItems.length})`;
-            }
-        }
-
-        // --- 3. MASCHINEN DATENBANK (Exakt nach PDF Konzept) ---
+        // --- 2. MASCHINEN DATENBANK (Exakt nach PDF Konzept) ---
         const machines = [
             { id: 'bike', name: 'Fahrrad-Station', type: 'green', icon: 'bike', 
-              desc: 'Alles fürs Velo: Montageständer, Pumpen, Drehmomentschlüssel, Kettenpeitsche.',
-              rules: ['Verschmutzte Teile über Wanne/Tuch reinigen.', 'Drehmomentschlüssel nach Nutzung entspannen!', 'Schmier- und Reinigungsmittel wieder in den Schrank.'] },
+              desc: 'Ausstattung für Reparatur und Wartung: Montageständer, Pumpen, Werkzeug.',
+              rules: ['Verschmutzte Teile über Wanne/Tuch reinigen.', 'Drehmomentschlüssel nach Nutzung entspannen.', 'Schmiermittel zurück in den Schrank stellen.'] },
             
             { id: 'akku', name: 'Akkuschrauber (4x)', type: 'green', icon: 'zap', 
-              desc: 'Der Klassiker. Für alle Schraub- und leichten Bohrarbeiten.',
-              rules: ['Richtigen Bit verwenden (Kreuz ist nicht gleich Kreuz!).', 'Leere Akkus danach ins Ladegerät.', 'Beim Bohren Werkstück fixieren.'] },
+              desc: 'Für Schraub- und leichte Bohrarbeiten.',
+              rules: ['Passenden Bit verwenden.', 'Leere Akkus in die Ladestation stecken.', 'Beim Bohren Werkstück fixieren.'] },
             
             { id: 'schleifer', name: 'Schleifgeräte', type: 'green', icon: 'disc', 
-              desc: 'Wir haben 2 Exzenterschleifer und einen Deltaschleifer.',
-              rules: ['IMMER mit Staubsauger/Absaugung nutzen.', 'Schleifpapier wechseln, bevor der Klett kaputt geht.', 'Nicht wie ein Ochse drücken, die Maschine arbeiten lassen.'] },
+              desc: '2 Exzenterschleifer und 1 Deltaschleifer.',
+              rules: ['Immer mit Absaugung nutzen.', 'Schleifpapier rechtzeitig wechseln.', 'Ohne großen Druck führen – die Maschine arbeiten lassen.'] },
             
             { id: 'bohrmaschine', name: 'Standbohrmaschine', type: 'green', icon: 'arrow-down-circle', 
-              desc: 'Für präzise, senkrechte Löcher.',
-              rules: ['STRIKTES HANDSCHUHVERBOT! (Einzugsgefahr)', 'Schutzbrille aufsetzen.', 'Werkstück IMMER im Maschinenschraubstock festspannen.', 'Bohrfutterschlüssel SOFORT wieder abziehen.'] },
+              desc: 'Für präzise, senkrechte Bohrungen.',
+              rules: ['Keine Handschuhe tragen (Einzugsgefahr).', 'Schutzbrille tragen.', 'Werkstück im Schraubstock festspannen.', 'Bohrfutterschlüssel direkt abziehen.'] },
 
             { id: 'handwerkzeug', name: 'Handwerkzeuge', type: 'green', icon: 'hammer', 
               desc: 'Feilen, Schraubenzieher, Hammer, Handsägen, Stemmeisen.',
-              rules: ['Stemmeisen immer vom Körper weg führen.', 'Werkzeug nach Nutzung reinigen und an den Platz zurücklegen.'] },
+              rules: ['Stemmeisen immer vom Körper weg führen.', 'Werkzeug gereinigt zurücklegen.'] },
 
             { id: 'kappsaege', name: 'Kappsäge', type: 'blue', icon: 'crosshair', 
-              desc: 'Separat verschlossen (Kinderschutz). Zum schnellen Ablängen von Hölzern.',
-              rules: ['Gehörschutz & Brille sind Pflicht.', 'Hände weg von der roten Zone auf dem Tisch.', 'Säge erst ganz unten anhalten, dann wieder hochschwenken.'] },
+              desc: 'Separat verschlossen. Zum präzisen Ablängen von Holz.',
+              rules: ['Gehörschutz und Schutzbrille tragen.', 'Hände außerhalb der markierten roten Zone halten.', 'Sägeblatt vor dem Hochschwenken komplett stoppen lassen.'] },
             
             { id: 'handkreissaege', name: 'Handkreissäge', type: 'blue', icon: 'square-slash', 
               desc: 'Separat verschlossen. Zur Nutzung mit Führungsschiene.',
-              rules: ['Schnitttiefe vorher richtig einstellen (max. 5mm tiefer als Holz).', 'Kabel beim Sägen über die Schulter legen.', 'Schiene zwingend festzwingen.'] },
+              rules: ['Schnitttiefe passend einstellen (max. 5 mm tiefer als Werkstück).', 'Kabel sicher hinter die Schnittrichtung führen.', 'Führungsschiene festspannen.'] },
 
             { id: 'stichsaege', name: 'Stichsägen (2x)', type: 'blue', icon: 'activity', 
-              desc: 'Separat verschlossen. Für Kurven und einfache Schnitte.',
-              rules: ['Holz gut einspannen, damit es nicht rattert.', 'Warten bis Sägeblatt stillsteht, bevor man sie aus dem Holz zieht.'] },
+              desc: 'Separat verschlossen. Für Kurvenschnitte und Ausklinkungen.',
+              rules: ['Werkstück fest einspannen.', 'Stillstand abwarten, bevor die Säge aus dem Schnitt gezogen wird.'] },
             
             { id: 'bandsaege', name: 'Bandsäge', type: 'blue', icon: 'move-vertical', 
-              desc: 'Separat verschlossen. Mit Kipptisch für Schweifarbeiten.',
-              rules: ['Blattführung immer knapp über dem Holz einstellen.', 'Nicht ruckartig schieben.', 'Finger immer flach auf den Tisch, nie in Schnittrichtung.'] },
+              desc: 'Separat verschlossen. Mit neigbarem Tisch für Schweifarbeiten.',
+              rules: ['Blattführung knapp über dem Werkstück einstellen.', 'Werkstück gleichmäßig führen.', 'Hände flach auflegen und nie in Schnittrichtung führen.'] },
 
             { id: 'oberfraese', name: 'Oberfräse', type: 'blue', icon: 'move', 
-              desc: 'Separat verschlossen. Macht Kanten schön, frisst aber auch gerne Finger.',
-              rules: ['Netzstecker ZIEHEN beim Fräserwechsel.', 'Immer im Gegenlauf fräsen.', 'Werkstück bombenfest fixieren.'] }
+              desc: 'Separat verschlossen. Für saubere Kanten- und Profilarbeiten.',
+              rules: ['Netzstecker ziehen vor dem Fräserwechsel.', 'Immer im Gegenlauf fräsen.', 'Werkstück sicher fixieren.'] }
         ];
 
         const colors = {
@@ -557,7 +627,7 @@
                     <p class="text-xl font-semibold mb-8 pb-6 border-b-2 border-black border-dashed">${m.desc}</p>
                     
                     <div class="bg-white brutal-box box-shadow-none p-6 md:p-8" style="box-shadow: 4px 4px 0px #000;">
-                        <h3 class="font-black uppercase text-2xl mb-6">Goldene Regeln:</h3>
+                        <h3 class="font-black uppercase text-2xl mb-6">Wichtige Regeln:</h3>
                         <ul>${rulesHtml}</ul>
                     </div>
                 </div>
