@@ -14,7 +14,9 @@
             ink:'#221f1c', 'ink-soft':'#4c453c',
             wred:'#c1343f', 'wred-dk':'#ad2f38',
             mint:'#a5c8c0', 'mint-dk':'#85b5aa', mintw:'#eaf3f0',
-            lachs:'#e59c90', lachsw:'#fbeee9', teal:'#93c5ce'
+            lachs:'#e59c90', lachsw:'#fbeee9',
+            catgreen:'#9ac79a', catblue:'#7fabd6',
+            honey:'#f1d27a', honeyw:'#f8ead0'
         }}}};
     </script>
 
@@ -362,7 +364,7 @@
         <section id="view-maschinen" class="view">
 
             <!-- Sicherheitstipps: freiwillig & aufklappbar (ersetzt den früheren Pflicht-Check-In) -->
-            <details class="brutal-box bg-card mb-8">
+            <details class="brutal-box bg-honey mb-8">
                 <summary class="cursor-pointer flex items-center gap-3 p-4 font-bold text-lg select-none">
                     <i data-lucide="lightbulb" class="w-6 h-6 shrink-0" stroke-width="2.5"></i>
                     <span>Sicherheitstipps</span>
@@ -388,14 +390,14 @@
             <div class="brutal-box bg-card p-6 mb-12 flex flex-col md:flex-row gap-6 items-center justify-between">
                 <h3 class="text-2xl font-bold whitespace-nowrap hidden lg:block">Nutzungs-Kategorien:</h3>
                 <div class="flex flex-col md:flex-row w-full gap-4">
-                    <div class="flex items-center gap-3 flex-1 bg-mint p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                    <div class="flex items-center gap-3 flex-1 bg-catgreen p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
                         <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">1</div>
                         <div>
                             <span class="font-bold block leading-tight">Kategorie Grün</span>
                             <span class="text-sm font-semibold leading-tight">Grundlagen & Handwerkzeug</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 flex-1 bg-teal p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                    <div class="flex items-center gap-3 flex-1 bg-catblue p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
                         <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">2</div>
                         <div>
                             <span class="font-bold block leading-tight">Kategorie Blau</span>
@@ -560,8 +562,8 @@
         ];
 
         const colors = {
-            'green': { bg: 'bg-mint', text: 'Kategorie Grün (Offen)' },
-            'blue': { bg: 'bg-teal', text: 'Kategorie Blau (Verschlossen)' }
+            'green': { bg: 'bg-catgreen', text: 'Kategorie Grün (Offen)' },
+            'blue': { bg: 'bg-catblue', text: 'Kategorie Blau (Verschlossen)' }
         };
 
         const machineGrid = document.getElementById('machine-grid');
