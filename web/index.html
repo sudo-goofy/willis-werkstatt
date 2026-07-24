@@ -7,43 +7,58 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        // WOGENAU-Farbwelt (aus wogenau.haus abgeleitet)
+        tailwind.config = { theme: { extend: { colors: {
+            paper:'#f5ead2', card:'#fffaf0', sand:'#e7d4ab', sandw:'#f4e6c9',
+            ink:'#221f1c', 'ink-soft':'#4c453c',
+            wred:'#c1343f', 'wred-dk':'#ad2f38',
+            mint:'#a5c8c0', 'mint-dk':'#85b5aa', mintw:'#eaf3f0',
+            lachs:'#e59c90', lachsw:'#fbeee9', teal:'#93c5ce'
+        }}}};
+    </script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts: Space Grotesk für den modernen, plakativen Look -->
+    <!-- Google Fonts: Rubik – die Hausschrift von wogenau.haus -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,900;1,700&display=swap" rel="stylesheet">
 
     <style>
         /* Grundlegendes Styling im Matt Blease / Neo-Brutalismus Style */
-        body { 
-            font-family: 'Space Grotesk', sans-serif; 
-            background-color: #fdfdfc; 
-            color: #000000;
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #f5ead2;
+            background-image: radial-gradient(#e7d4ab 0.6px, transparent 0.6px);
+            background-size: 24px 24px;
+            background-position: -12px -12px;
+            color: #221f1c;
         }
 
+        /* Weiche „Papier"-Karte statt harter Neo-Brutalismus-Kante */
         .brutal-box {
-            border: 3px solid #000;
-            border-radius: 12px;
-            box-shadow: 6px 6px 0px #000;
+            border: 2px solid #221f1c;
+            border-radius: 18px;
+            box-shadow: 0 16px 34px -22px rgba(34,31,28,.55);
             transition: all 0.2s ease;
-            background-color: #fff;
+            background-color: #fffaf0;
         }
 
         .brutal-btn {
-            border: 3px solid #000;
-            border-radius: 12px;
-            box-shadow: 4px 4px 0px #000;
+            border: 2px solid #221f1c;
+            border-radius: 999px;
+            box-shadow: 0 8px 18px -12px rgba(34,31,28,.5);
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.1s ease;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
         }
 
+        .brutal-btn:hover { transform: translateY(-2px); }
         .brutal-btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px #000;
+            transform: translateY(0);
+            box-shadow: 0 3px 8px -6px rgba(34,31,28,.5);
         }
 
         .view { display: none; animation: fadeIn 0.3s ease; }
@@ -61,19 +76,25 @@
 
 
         .nav-btn.active-nav {
-            background-color: #FFD700;
-            transform: translate(4px, 4px);
-            box-shadow: 0px 0px 0px #000;
+            background-color: #a5c8c0;
+            color: #221f1c;
         }
 
         /* Deutlich sichtbarer Tastatur-Fokus (Motorik / Sehbehinderung) */
         a:focus-visible,
         button:focus-visible,
+        summary:focus-visible,
         [tabindex]:focus-visible {
             outline: 4px solid #1d4ed8;
             outline-offset: 3px;
             border-radius: 6px;
         }
+
+        /* Aufklappbare Sicherheitstipps (freiwillig, kein Pflicht-Check-In) */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary .chevron { transition: transform 0.2s ease; }
+        details[open] > summary .chevron { transform: rotate(180deg); }
 
         /* Skip-Link: erscheint nur bei Tastatur-Fokus */
         .skip-link {
@@ -81,7 +102,7 @@
             left: 12px;
             top: -100px;
             z-index: 60;
-            background: #000;
+            background: #221f1c;
             color: #fff;
             padding: 12px 18px;
             font-weight: 700;
@@ -104,70 +125,74 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-yellow-300 selection:text-black">
+<body class="min-h-screen flex flex-col selection:bg-mint selection:text-ink">
 
     <a href="#main-content" class="skip-link">Direkt zum Inhalt springen</a>
 
     <!-- Header / Logo -->
-    <header class="p-4 md:p-6 lg:px-8 border-b-3 border-black bg-white flex justify-between items-center sticky top-0 z-40" style="border-bottom: 3px solid #000;">
+    <header class="p-4 md:p-5 lg:px-8 border-b-2 border-ink bg-card flex justify-between items-center gap-4 sticky top-0 z-40" style="border-bottom: 2px solid #221f1c;">
         <button type="button" class="flex items-center gap-3 cursor-pointer group bg-transparent border-0 p-0 text-left" onclick="switchView('intro')" aria-label="Zur Startseite">
-            <svg viewBox="0 0 100 100" class="w-12 h-12 md:w-16 md:h-16 transform -rotate-6 group-hover:rotate-6 transition-transform origin-center" role="img" aria-label="Logo Willis Werkstatt">
+            <svg viewBox="0 0 100 100" class="w-11 h-11 md:w-14 md:h-14 transform -rotate-6 group-hover:rotate-6 transition-transform origin-center" role="img" aria-label="Logo Willis Werkstatt">
                 <title>Logo Willis Werkstatt</title>
-                <!-- Organischer Blob als Gesicht (Matt-Blease-Stil) -->
-                <path d="M 50 2 C 75 2, 98 15, 96 50 C 94 85, 80 98, 50 96 C 15 94, 4 80, 4 50 C 4 20, 20 2, 50 2 Z" fill="#FFD700" stroke="#000" stroke-width="4" stroke-linejoin="round" />
-                <!-- Augen: links Punkt, rechts ein Zwinkern -->
-                <circle cx="36" cy="38" r="5" fill="#000" />
-                <path d="M 56 39 q 6 5 12 0" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" />
-                <!-- Freundliches, weiches Grinsen -->
-                <path d="M 30 56 Q 50 78 70 56" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" />
+                <!-- Willi: Tinten-Linie auf Lachs (Wogenau-Illustrationsstil) -->
+                <path d="M 50 4 C 74 4, 95 16, 94 50 C 93 82, 78 95, 50 94 C 17 93, 6 78, 6 50 C 6 21, 22 4, 50 4 Z" fill="#e59c90" stroke="#221f1c" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="37" cy="42" r="4.6" fill="#221f1c" />
+                <path d="M 57 43 q 6 5 12 0" fill="none" stroke="#221f1c" stroke-width="4" stroke-linecap="round" />
+                <path d="M 32 60 Q 50 80 68 60" fill="none" stroke="#221f1c" stroke-width="4.6" stroke-linecap="round" />
             </svg>
-            <h1 class="font-bold text-2xl md:text-3xl uppercase tracking-tighter ml-2">Willis Werkstatt</h1>
+            <h1 class="font-bold text-2xl md:text-3xl tracking-tight ml-1">Willis Werkstatt</h1>
         </button>
-        <!-- Desktop Nav -->
-        <nav class="hidden md:flex gap-3 lg:gap-4">
-            <button onclick="switchView('konzept')" id="nav-konzept" class="nav-btn brutal-btn bg-white px-4 py-2 flex items-center gap-2">
-                <i data-lucide="book-open" class="w-5 h-5"></i> Konzept
-            </button>
-            <button onclick="switchView('checkin')" id="nav-checkin" class="nav-btn brutal-btn bg-white px-4 py-2 flex items-center gap-2">
-                <i data-lucide="check-square" class="w-5 h-5"></i> Check-In
-            </button>
-            <button onclick="switchView('maschinen')" id="nav-maschinen" class="nav-btn brutal-btn bg-white px-4 py-2 flex items-center gap-2">
-                <i data-lucide="wrench" class="w-5 h-5"></i> Maschinen
-            </button>
-            <button onclick="switchView('notfall')" id="nav-notfall" class="nav-btn brutal-btn bg-red-400 px-4 py-2 flex items-center gap-2 text-black">
-                <i data-lucide="siren" class="w-5 h-5"></i> Notfall
-            </button>
-        </nav>
+        <div class="flex items-center gap-3 lg:gap-4">
+            <a href="https://wogenau.haus" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft px-3 py-1.5 rounded-full bg-paper border border-ink/20 hover:bg-white transition-colors whitespace-nowrap">↗ Teil von <b class="text-ink">wogenau.haus</b></a>
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex gap-3 lg:gap-4">
+                <button onclick="switchView('konzept')" id="nav-konzept" class="nav-btn brutal-btn bg-card px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-5 h-5"></i> Konzept
+                </button>
+                <button onclick="switchView('maschinen')" id="nav-maschinen" class="nav-btn brutal-btn bg-card px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="wrench" class="w-5 h-5"></i> Werkzeug
+                </button>
+                <button onclick="switchView('notfall')" id="nav-notfall" class="nav-btn brutal-btn bg-wred px-4 py-2 flex items-center gap-2 text-white">
+                    <i data-lucide="siren" class="w-5 h-5"></i> Notfall
+                </button>
+            </nav>
+        </div>
     </header>
 
     <main id="main-content" class="flex-grow w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col">
 
         <!-- ==================== VIEW: INTRO ==================== -->
         <section id="view-intro" class="view active">
-            <div class="h-full flex flex-col justify-center items-center text-center py-2">
-                <div class="brutal-box bg-yellow-400 p-6 md:p-10 max-w-2xl transform rotate-1 hover:rotate-0 transition-transform">
-                    <svg viewBox="0 0 100 100" class="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 transform hover:scale-110 transition-transform origin-center" aria-hidden="true" focusable="false">
-                <title>Logo Willis Werkstatt</title>
-                <!-- Organischer Blob als Gesicht (Matt-Blease-Stil) -->
-                <path d="M 50 2 C 75 2, 98 15, 96 50 C 94 85, 80 98, 50 96 C 15 94, 4 80, 4 50 C 4 20, 20 2, 50 2 Z" fill="#FFD700" stroke="#000" stroke-width="4" stroke-linejoin="round" />
-                <!-- Augen: links Punkt, rechts ein Zwinkern -->
-                <circle cx="36" cy="38" r="5" fill="#000" />
-                <path d="M 56 39 q 6 5 12 0" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" />
-                <!-- Freundliches, weiches Grinsen -->
-                <path d="M 30 56 Q 50 78 70 56" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round" />
-            </svg>
-                    <h2 class="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-4 leading-none">Willkommen in Willis Werkstatt!</h2>
-                    <p class="text-lg md:text-xl font-semibold mb-6 border-t-3 border-black pt-4" style="border-top: 3px solid #000;">
-                        Hier werkelt unsere Gemeinschaft sicher und kreativ. Hier findest du alle wichtigen Regeln und Infos für ein gutes Miteinander.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="switchView('konzept')" class="brutal-btn bg-white text-black text-lg px-6 py-3 flex justify-center items-center gap-3">
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center py-4 w-full">
+                <!-- Text -->
+                <div class="order-2 md:order-1 text-center md:text-left">
+                    <span class="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.16em] text-wred-dk">
+                        <span class="w-6 h-0.5 bg-wred-dk"></span> Die Gemeinschaftswerkstatt von wogenau
+                    </span>
+                    <h2 class="text-4xl md:text-6xl font-black leading-[1.02] tracking-tight mt-4 mb-5">Willkommen in Willis <span class="relative whitespace-nowrap text-wred">Werkstatt<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;bottom:-0.14em;width:100%;height:0.2em;overflow:visible"><path d="M3 11C52 3 150 3 197 8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>!</h2>
+                    <p class="text-lg md:text-xl text-ink-soft max-w-md mx-auto md:mx-0 mb-7">Hier werkelt unsere Gemeinschaft sicher und kreativ. Hier findest du alle wichtigen Regeln und Infos für ein gutes Miteinander.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button onclick="switchView('konzept')" class="brutal-btn bg-wred text-white text-lg px-7 py-3.5 inline-flex justify-center items-center gap-3">
                             <i data-lucide="book-open" class="w-6 h-6"></i> Konzept lesen
                         </button>
-                        <button onclick="switchView('checkin')" class="brutal-btn bg-black text-white text-lg px-6 py-3 flex justify-center items-center gap-3">
-                            Zum Check-In <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                        <button onclick="switchView('maschinen')" class="brutal-btn bg-card text-ink text-lg px-7 py-3.5 inline-flex justify-center items-center gap-3">
+                            Zum Werkzeug <i data-lucide="arrow-right" class="w-6 h-6"></i>
                         </button>
                     </div>
+                </div>
+                <!-- Willi im Mint-Blob -->
+                <div class="order-1 md:order-2 relative flex justify-center items-center">
+                    <div class="bg-mint flex items-center justify-center" style="width:min(340px,78vw);aspect-ratio:1;border-radius:47% 53% 52% 48% / 55% 46% 54% 45%;box-shadow:0 24px 50px -22px rgba(34,31,28,.42)">
+                        <svg viewBox="0 0 120 120" class="w-3/4 transform -rotate-3" role="img" aria-label="Willi, das Werkstatt-Maskottchen">
+                            <title>Willi</title>
+                            <path d="M60 12C82 12 101 24 100 54 99 82 85 94 60 93 30 92 20 78 20 52 20 26 36 12 60 12Z" fill="#e59c90" stroke="#221f1c" stroke-width="3.4" stroke-linejoin="round"/>
+                            <circle cx="47" cy="48" r="4.4" fill="#221f1c"/>
+                            <path d="M67 49q6 5 12 0" fill="none" stroke="#221f1c" stroke-width="3.4" stroke-linecap="round"/>
+                            <path d="M42 65q18 20 36 0" fill="none" stroke="#221f1c" stroke-width="4.2" stroke-linecap="round"/>
+                            <path d="M30 104q7-7 14 0t14 0 14 0 14 0" fill="none" stroke="#85b5aa" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="absolute -top-1 right-2 md:right-6 bg-wred text-white w-24 h-24 md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center font-black leading-none text-center rotate-12 border-[3px] border-paper" style="box-shadow:0 12px 24px -8px rgba(193,52,63,.6)">WERK<br>GENAU<span class="text-[10px] font-semibold opacity-90 mt-1 tracking-wide">hier</span></div>
                 </div>
             </div>
         </section>
@@ -175,11 +200,11 @@
         <!-- ==================== VIEW: KONZEPT (NEU) ==================== -->
         <section id="view-konzept" class="view">
             <div class="flex items-center gap-4 mb-6">
-                <div class="bg-blue-300 p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #000;">
+                <div class="bg-mint p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #221f1c;">
                     <i data-lucide="book-open" class="w-8 h-8" stroke-width="2.5"></i>
                 </div>
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Unser Konzept</h2>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">Unser Konzept</h2>
                     <p class="text-base md:text-lg font-semibold text-gray-700">Die wichtigsten Regeln &amp; Rahmenbedingungen auf einen Blick</p>
                 </div>
             </div>
@@ -187,28 +212,28 @@
             <!-- Quick Facts Banderole -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                 <div class="brutal-box p-3 bg-white flex items-center gap-3">
-                    <i data-lucide="clock" class="w-6 h-6 text-blue-600 shrink-0" stroke-width="2.5"></i>
+                    <i data-lucide="clock" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
                     <div>
                         <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zeiten</span>
                         <span class="font-bold text-sm leading-tight block">09:00–19:00 Uhr</span>
                     </div>
                 </div>
                 <div class="brutal-box p-3 bg-white flex items-center gap-3">
-                    <i data-lucide="key-round" class="w-6 h-6 text-yellow-600 shrink-0" stroke-width="2.5"></i>
+                    <i data-lucide="key-round" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
                     <div>
                         <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zugang</span>
                         <span class="font-bold text-sm leading-tight block">Ab 18 J. + Einweisung</span>
                     </div>
                 </div>
                 <div class="brutal-box p-3 bg-white flex items-center gap-3">
-                    <i data-lucide="piggy-bank" class="w-6 h-6 text-green-600 shrink-0" stroke-width="2.5"></i>
+                    <i data-lucide="piggy-bank" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
                     <div>
                         <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Kosten</span>
                         <span class="font-bold text-sm leading-tight block">Kostenlos (Bewohner)</span>
                     </div>
                 </div>
                 <div class="brutal-box p-3 bg-white flex items-center gap-3">
-                    <i data-lucide="calendar-off" class="w-6 h-6 text-purple-600 shrink-0" stroke-width="2.5"></i>
+                    <i data-lucide="calendar-off" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
                     <div>
                         <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Termine</span>
                         <span class="font-bold text-sm leading-tight block">Kein Slot nötig</span>
@@ -217,25 +242,25 @@
             </div>
 
             <!-- Nutzungsvereinbarung Box -->
-            <div class="brutal-box p-5 bg-yellow-100 mb-8 border-3 border-black">
+            <div class="brutal-box p-5 bg-lachs mb-8">
                 <div class="flex items-center gap-2 mb-3">
-                    <i data-lucide="shield-check" class="w-6 h-6 text-black shrink-0" stroke-width="2.5"></i>
-                    <h3 class="text-xl font-black uppercase tracking-tight">Grundsatz für die Werkstattnutzung</h3>
+                    <i data-lucide="shield-check" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <h3 class="text-xl font-black tracking-tight">Grundsatz für die Werkstattnutzung</h3>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-semibold text-sm md:text-base">
-                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
                         <span class="text-xl shrink-0">📜</span>
                         <span><b>Einverständnis:</b> Mit Nutzung akzeptierst du dieses Nutzungskonzept &amp; alle Vorgaben.</span>
                     </div>
-                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
                         <span class="text-xl shrink-0">🛠️</span>
                         <span><b>Werkzeugkunde:</b> Nur Werkzeuge nutzen, deren Gefahren &amp; Einsatz dir bekannt sind.</span>
                     </div>
-                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
                         <span class="text-xl shrink-0">🧹</span>
                         <span><b>Sorgfalt &amp; Ordnung:</b> Auf Mitmenschen achten &amp; Werkstatt sauber hinterlassen.</span>
                     </div>
-                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-black">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
                         <span class="text-xl shrink-0">⚠️</span>
                         <span><b>Schäden &amp; Risiken:</b> Sofort kennzeichnen &amp; mit Werkstattwart*innen absprechen.</span>
                     </div>
@@ -245,53 +270,53 @@
             <!-- Die 3 Säulen -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- 1. Zugang -->
-                <div class="brutal-box p-6 bg-[#fff9e6] flex flex-col justify-between h-full">
+                <div class="brutal-box p-6 bg-mintw flex flex-col justify-between h-full">
                     <div>
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
                             <div class="flex items-center gap-3">
-                                <i data-lucide="key" class="w-8 h-8 text-yellow-600" stroke-width="2.5"></i>
-                                <h3 class="text-2xl font-black uppercase">1. Zugang</h3>
+                                <i data-lucide="key" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">1. Zugang</h3>
                             </div>
                         </div>
                         
                         <ul class="space-y-3 font-semibold text-base">
                             <li class="flex items-start gap-2">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Bewohner*innen (ab 18):</b> Selbstständig nach Einweisung (Kategorie Grün). Für Kategorie Blau ist eine Zusatz-Einweisung nötig.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Kinder, Jugend &amp; Gäste:</b> Nur mit Aufsicht unterwiesener Erwachsener (beschränkt auf Kategorie Grün).</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
-                                <span><b>Minderjährige:</b> Gilt RISU-Orientierung (<a href="../uvv/UVV-Handbuch-2025-onlineversion.pdf" target="_blank" rel="noopener" class="underline font-bold hover:text-blue-700">Handbuch S. 48</a>).</span>
+                                <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Minderjährige:</b> Gilt RISU-Orientierung (<a href="../uvv/UVV-Handbuch-2025-onlineversion.pdf" target="_blank" rel="noopener" class="underline font-bold hover:text-wred-dk">Handbuch S. 48</a>).</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- 2. Nutzungszeiten -->
-                <div class="brutal-box p-6 bg-[#e6f2ff] flex flex-col justify-between h-full">
+                <div class="brutal-box p-6 bg-lachsw flex flex-col justify-between h-full">
                     <div>
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
                             <div class="flex items-center gap-3">
-                                <i data-lucide="clock" class="w-8 h-8 text-blue-600" stroke-width="2.5"></i>
-                                <h3 class="text-2xl font-black uppercase">2. Zeiten</h3>
+                                <i data-lucide="clock" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">2. Zeiten</h3>
                             </div>
                         </div>
 
                         <ul class="space-y-3 font-semibold text-base">
                             <li class="flex items-start gap-2">
-                                <i data-lucide="volume-2" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <i data-lucide="volume-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Laute Arbeiten:</b> 09:00 – 19:00 Uhr (Sonntagsruhe). Tür bitte geschlossen halten.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="users" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <i data-lucide="users" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Keine Slots:</b> Ohne Buchung vorbeikommen. Raum für Austausch &amp; Miteinander.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="calendar" class="w-5 h-5 mt-1 shrink-0 text-blue-600" stroke-width="2.5"></i>
+                                <i data-lucide="calendar" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Große Projekte:</b> Bei viel Platzbedarf im Wandkalender vor Ort vormerken.</span>
                             </li>
                         </ul>
@@ -299,26 +324,26 @@
                 </div>
 
                 <!-- 3. Finanzierung -->
-                <div class="brutal-box p-6 bg-[#e6ffe6] flex flex-col justify-between h-full">
+                <div class="brutal-box p-6 bg-sandw flex flex-col justify-between h-full">
                     <div>
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-black" style="border-bottom: 3px solid #000;">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
                             <div class="flex items-center gap-3">
-                                <i data-lucide="piggy-bank" class="w-8 h-8 text-green-600" stroke-width="2.5"></i>
-                                <h3 class="text-2xl font-black uppercase">3. Kosten</h3>
+                                <i data-lucide="piggy-bank" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">3. Kosten</h3>
                             </div>
                         </div>
 
                         <ul class="space-y-3 font-semibold text-base">
                             <li class="flex items-start gap-2">
-                                <i data-lucide="heart-handshake" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <i data-lucide="heart-handshake" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Bewohner*innen:</b> Kostenlos. Spenden für Verschleiß in Spendenbox / PayPal-Pool.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="user-check" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <i data-lucide="user-check" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Gäste &amp; Nachbarn:</b> Stundenbasierte Spendenempfehlung + Materialkosten.</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <i data-lucide="sparkles" class="w-5 h-5 mt-1 shrink-0 text-green-600" stroke-width="2.5"></i>
+                                <i data-lucide="sparkles" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
                                 <span><b>Workshops:</b> Spenden zur Deckung von Zeit, Ausstattung &amp; Material.</span>
                             </li>
                         </ul>
@@ -327,83 +352,53 @@
             </div>
 
             <div class="text-center">
-                <button onclick="switchView('maschinen')" class="brutal-btn bg-black text-white text-lg px-6 py-3 inline-flex items-center gap-2">
-                    Weiter zu den Geräten <i data-lucide="arrow-right"></i>
+                <button onclick="switchView('maschinen')" class="brutal-btn bg-wred text-white text-lg px-6 py-3 inline-flex items-center gap-2">
+                    Weiter zum Werkzeug <i data-lucide="arrow-right"></i>
                 </button>
             </div>
         </section>
 
-        <!-- ==================== VIEW: CHECK-IN ==================== -->
-        <section id="view-checkin" class="view">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="bg-yellow-400 p-2 brutal-box box-shadow-none" style="box-shadow: 2px 2px 0px #000;">
-                    <i data-lucide="list-checks" class="w-8 h-8" stroke-width="2.5"></i>
-                </div>
-                <h2 class="text-3xl font-bold uppercase tracking-tight">Dein Check-In</h2>
-            </div>
-
-            <p class="text-lg font-semibold mb-5 max-w-2xl">Kurzer Sicherheits-Check vor dem Start. Bitte einmal durchgehen:</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Passende Kleidung (keine losen Bänder/Schals)</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Lange Haare zusammengebunden</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Festes Schuhwerk getragen</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Schutzbrille &amp; Gehörschutz bereit</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Werkstück sicher eingespannt</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Fit und aufmerksam (kein Alkohol)</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Arbeitsplatz aufgeräumt</span>
-                </div>
-                <div class="brutal-box p-3 md:p-4 flex items-center gap-4 bg-white">
-                    <i data-lucide="check-circle-2" class="w-8 h-8 text-green-600 shrink-0"></i>
-                    <span class="font-bold text-lg leading-tight">Not-Aus-Schalter bekannt</span>
-                </div>
-            </div>
-
-            <div class="mt-6 text-center">
-                <button onclick="switchView('maschinen')" class="brutal-btn bg-black text-white text-lg px-6 py-3 inline-flex items-center gap-2">
-                    Weiter zu den Geräten <i data-lucide="arrow-right"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- ==================== VIEW: MASCHINEN (Angepasst ans Konzept) ==================== -->
+        <!-- ==================== VIEW: WERKZEUG ==================== -->
         <section id="view-maschinen" class="view">
-            
+
+            <!-- Sicherheitstipps: freiwillig & aufklappbar (ersetzt den früheren Pflicht-Check-In) -->
+            <details class="brutal-box bg-card mb-8">
+                <summary class="cursor-pointer flex items-center gap-3 p-4 font-bold text-lg select-none">
+                    <i data-lucide="lightbulb" class="w-6 h-6 shrink-0" stroke-width="2.5"></i>
+                    <span>Sicherheitstipps</span>
+                    <span class="text-sm font-semibold text-gray-500 hidden sm:inline">– freiwillig, aber empfohlen</span>
+                    <span class="chevron ml-auto shrink-0"><i data-lucide="chevron-down" class="w-5 h-5"></i></span>
+                </summary>
+                <div class="px-4 pb-4 border-t-3 border-ink" style="border-top: 3px solid #221f1c;">
+                    <p class="text-sm font-semibold text-gray-600 mt-3 mb-3">Kein Muss – nur eine kleine Erinnerung fürs sichere Werkeln:</p>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 font-semibold">
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Passende Kleidung – keine losen Bänder oder Schals</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Lange Haare zusammenbinden</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Festes Schuhwerk tragen</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Schutzbrille &amp; Gehörschutz griffbereit</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Werkstück sicher einspannen</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Fit &amp; aufmerksam bleiben (kein Alkohol)</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Arbeitsplatz aufgeräumt halten</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Not-Aus-Schalter kennen</span></li>
+                    </ul>
+                </div>
+            </details>
+
             <!-- Ampelsystem Legende (Angepasst auf 2 Stufen: Grün & Blau) -->
-            <div class="brutal-box bg-white p-6 mb-12 flex flex-col md:flex-row gap-6 items-center justify-between">
-                <h3 class="text-2xl font-bold uppercase whitespace-nowrap hidden lg:block">Nutzungs-Kategorien:</h3>
+            <div class="brutal-box bg-card p-6 mb-12 flex flex-col md:flex-row gap-6 items-center justify-between">
+                <h3 class="text-2xl font-bold whitespace-nowrap hidden lg:block">Nutzungs-Kategorien:</h3>
                 <div class="flex flex-col md:flex-row w-full gap-4">
-                    <div class="flex items-center gap-3 flex-1 bg-green-300 p-3 border-3 border-black rounded-lg" style="border: 3px solid #000;">
-                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-black rounded-full font-black text-xl" style="border: 3px solid #000;">1</div>
+                    <div class="flex items-center gap-3 flex-1 bg-mint p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">1</div>
                         <div>
-                            <span class="font-bold uppercase block leading-tight">Kategorie Grün</span>
+                            <span class="font-bold block leading-tight">Kategorie Grün</span>
                             <span class="text-sm font-semibold leading-tight">Grundlagen & Handwerkzeug</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 flex-1 bg-blue-300 p-3 border-3 border-black rounded-lg" style="border: 3px solid #000;">
-                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-black rounded-full font-black text-xl" style="border: 3px solid #000;">2</div>
+                    <div class="flex items-center gap-3 flex-1 bg-teal p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">2</div>
                         <div>
-                            <span class="font-bold uppercase block leading-tight">Kategorie Blau</span>
+                            <span class="font-bold block leading-tight">Kategorie Blau</span>
                             <span class="text-sm font-semibold leading-tight">Erweiterung (Im Schrank verschlossen)</span>
                         </div>
                     </div>
@@ -411,10 +406,10 @@
             </div>
 
             <div class="flex items-center gap-4 mb-8">
-                <div class="bg-gray-200 p-3 brutal-box box-shadow-none" style="box-shadow: 2px 2px 0px #000;">
+                <div class="bg-mint p-3 brutal-box box-shadow-none" style="box-shadow: 2px 2px 0px #221f1c;">
                     <i data-lucide="wrench" class="w-8 h-8" stroke-width="2.5"></i>
                 </div>
-                <h2 class="text-4xl font-bold uppercase tracking-tight">Inventar & Regeln</h2>
+                <h2 class="text-4xl font-bold tracking-tight">Werkzeug & Regeln</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="machine-grid">
@@ -424,36 +419,36 @@
 
         <!-- ==================== VIEW: NOTFALL ==================== -->
         <section id="view-notfall" class="view">
-            <div class="brutal-box bg-red-500 text-white p-5 md:p-6 mb-4 border-4 border-black">
+            <div class="brutal-box bg-wred text-white p-5 md:p-6 mb-4 border-4 border-ink">
                 <div class="flex items-center justify-center gap-4 mb-2">
                     <i data-lucide="siren" class="w-12 h-12 animate-pulse" stroke-width="2.5"></i>
                 </div>
                 <h2 class="text-5xl md:text-7xl font-black text-center uppercase tracking-tighter mb-3">112</h2>
-                <h3 class="text-xl font-bold text-center mb-5 uppercase">Rettungsdienst & Notarzt</h3>
+                <h3 class="text-xl font-bold text-center mb-5">Rettungsdienst & Notarzt</h3>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-black">
-                    <div class="bg-white p-4 border-3 border-black rounded-xl" style="border: 3px solid #000;">
-                        <i data-lucide="activity" class="w-8 h-8 mb-2 text-red-500"></i>
-                        <h4 class="font-bold text-lg uppercase mb-1">Erste Hilfe</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-ink">
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="activity" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Erste Hilfe</h4>
                         <p class="font-semibold">Kasten hängt direkt links neben der Eingangstür.</p>
                     </div>
-                    <div class="bg-white p-4 border-3 border-black rounded-xl" style="border: 3px solid #000;">
-                        <i data-lucide="flame" class="w-8 h-8 mb-2 text-red-500"></i>
-                        <h4 class="font-bold text-lg uppercase mb-1">Feuerlöscher</h4>
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="flame" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Feuerlöscher</h4>
                         <p class="font-semibold">Im Flur und markiert neben der großen Werkbank.</p>
                     </div>
-                    <div class="bg-white p-4 border-3 border-black rounded-xl" style="border: 3px solid #000;">
-                        <i data-lucide="power-off" class="w-8 h-8 mb-2 text-red-500"></i>
-                        <h4 class="font-bold text-lg uppercase mb-1">Not-Aus</h4>
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="power-off" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Not-Aus</h4>
                         <p class="font-semibold">Roter Pilzschalter am Stromkasten (Türe rechts).</p>
                     </div>
                 </div>
             </div>
 
             <!-- UVV Dokumente -->
-            <div class="brutal-box bg-yellow-400 p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="brutal-box bg-lachs p-5 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
-                    <h3 class="text-2xl font-bold uppercase mb-1">Die Nutzungsordnung</h3>
+                    <h3 class="text-2xl font-bold mb-1">Die Nutzungsordnung</h3>
                     <p class="text-lg font-semibold">Das volle Dokument mit allen Details und dem offiziellen Regelwerk.</p>
                 </div>
                 <div class="flex w-full md:w-auto">
@@ -467,22 +462,18 @@
     </main>
 
     <!-- Mobile Navigation (Bottom Bar) -->
-    <nav class="md:hidden sticky bottom-0 w-full bg-white border-t-4 border-black flex justify-around p-1 pb-2 z-40" style="border-top: 4px solid #000;">
+    <nav class="md:hidden sticky bottom-0 w-full bg-white border-t-4 border-ink flex justify-around p-1 pb-2 z-40" style="border-top: 4px solid #221f1c;">
         <button onclick="switchView('konzept')" id="mob-konzept" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 rounded-lg">
             <i data-lucide="book-open" class="w-5 h-5"></i>
             <span class="text-xs font-bold uppercase">Konzept</span>
         </button>
-        <button onclick="switchView('checkin')" id="mob-checkin" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 border-l-2 border-black rounded-none">
-            <i data-lucide="check-square" class="w-5 h-5"></i>
-            <span class="text-xs font-bold uppercase">Check-In</span>
-        </button>
-        <button onclick="switchView('maschinen')" id="mob-maschinen" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 border-l-2 border-r-2 border-black rounded-none">
+        <button onclick="switchView('maschinen')" id="mob-maschinen" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 border-l-2 border-r-2 border-ink rounded-none">
             <i data-lucide="wrench" class="w-5 h-5"></i>
-            <span class="text-xs font-bold uppercase">Inventar</span>
+            <span class="text-xs font-bold uppercase">Werkzeug</span>
         </button>
-        <button onclick="switchView('notfall')" id="mob-notfall" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 text-red-600 rounded-lg">
+        <button onclick="switchView('notfall')" id="mob-notfall" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 text-wred rounded-lg">
             <i data-lucide="siren" class="w-5 h-5"></i>
-            <span class="text-xs font-bold uppercase text-black">Notfall</span>
+            <span class="text-xs font-bold uppercase text-ink">Notfall</span>
         </button>
     </nav>
 
@@ -569,8 +560,8 @@
         ];
 
         const colors = {
-            'green': { bg: 'bg-green-300', text: 'Kategorie Grün (Offen)' },
-            'blue': { bg: 'bg-blue-300', text: 'Kategorie Blau (Verschlossen)' }
+            'green': { bg: 'bg-mint', text: 'Kategorie Grün (Offen)' },
+            'blue': { bg: 'bg-teal', text: 'Kategorie Blau (Verschlossen)' }
         };
 
         const machineGrid = document.getElementById('machine-grid');
@@ -578,14 +569,14 @@
             const c = colors[m.type];
             const html = `
                 <button type="button" onclick="openModal('${m.id}')" class="brutal-box ${c.bg} p-6 cursor-pointer transform hover:-translate-y-1 transition-transform flex flex-col justify-between h-full text-left w-full" aria-label="${m.name} – Regeln lesen (${c.text})" aria-haspopup="dialog">
-                    <div class="flex justify-between items-start mb-6 border-b-3 border-black pb-4" style="border-bottom: 3px solid #000;">
+                    <div class="flex justify-between items-start mb-6 border-b-3 border-ink pb-4" style="border-bottom: 3px solid #221f1c;">
                         <i data-lucide="${m.icon}" class="w-10 h-10" stroke-width="2.5" aria-hidden="true"></i>
-                        <span class="bg-white px-3 py-1 font-bold text-xs uppercase border-2 border-black rounded-full" style="border: 2px solid #000;">
+                        <span class="bg-white px-3 py-1 font-bold text-xs uppercase border-2 border-ink rounded-full" style="border: 2px solid #221f1c;">
                             ${c.text}
                         </span>
                     </div>
                     <div>
-                        <h3 class="font-bold text-2xl uppercase tracking-tight mb-2">${m.name}</h3>
+                        <h3 class="font-bold text-2xl tracking-tight mb-2">${m.name}</h3>
                         <p class="font-bold font-mono text-sm underline decoration-2 underline-offset-4">Regeln lesen &rarr;</p>
                     </div>
                 </button>
@@ -611,12 +602,12 @@
             `).join('');
 
             modalContent.innerHTML = `
-                <div class="${c.bg} p-6 md:p-8 border-b-4 border-black flex justify-between items-center" style="border-bottom: 4px solid #000;">
+                <div class="${c.bg} p-6 md:p-8 border-b-4 border-ink flex justify-between items-center" style="border-bottom: 4px solid #221f1c;">
                     <div class="flex items-center gap-4">
-                        <div class="bg-white p-2 border-3 border-black rounded-lg" style="border: 3px solid #000;">
+                        <div class="bg-white p-2 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
                             <i data-lucide="${m.icon}" class="w-8 h-8" aria-hidden="true"></i>
                         </div>
-                        <h2 id="modal-title" class="text-3xl md:text-4xl font-black uppercase tracking-tight">${m.name}</h2>
+                        <h2 id="modal-title" class="text-3xl md:text-4xl font-black tracking-tight">${m.name}</h2>
                     </div>
                     <button onclick="closeModal()" class="brutal-btn bg-white p-2" aria-label="Schließen">
                         <i data-lucide="x" class="w-8 h-8" aria-hidden="true"></i>
@@ -624,10 +615,10 @@
                 </div>
                 
                 <div class="p-6 md:p-8 overflow-y-auto" style="max-height: 60vh;">
-                    <p class="text-xl font-semibold mb-8 pb-6 border-b-2 border-black border-dashed">${m.desc}</p>
+                    <p class="text-xl font-semibold mb-8 pb-6 border-b-2 border-ink border-dashed">${m.desc}</p>
                     
-                    <div class="bg-white brutal-box box-shadow-none p-6 md:p-8" style="box-shadow: 4px 4px 0px #000;">
-                        <h3 class="font-black uppercase text-2xl mb-6">Wichtige Regeln:</h3>
+                    <div class="bg-white brutal-box box-shadow-none p-6 md:p-8" style="box-shadow: 4px 4px 0px #221f1c;">
+                        <h3 class="font-black text-2xl mb-6">Wichtige Regeln:</h3>
                         <ul>${rulesHtml}</ul>
                     </div>
                 </div>
