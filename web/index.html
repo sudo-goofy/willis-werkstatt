@@ -145,7 +145,6 @@
             <h1 class="font-bold text-2xl md:text-3xl tracking-tight ml-1">Willis Werkstatt</h1>
         </button>
         <div class="flex items-center gap-3 lg:gap-4">
-            <a href="https://wogenau.haus" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft px-3 py-1.5 rounded-full bg-paper border border-ink/20 hover:bg-white transition-colors whitespace-nowrap">↗ Teil von <b class="text-ink">wogenau.haus</b></a>
             <!-- Desktop Nav -->
             <nav class="hidden md:flex gap-3 lg:gap-4">
                 <button onclick="switchView('konzept')" id="nav-konzept" class="nav-btn brutal-btn bg-card px-4 py-2 flex items-center gap-2">
@@ -462,6 +461,12 @@
         </section>
 
     </main>
+
+    <!-- Floating Parent-Link (nur Desktop – mobil belegt die Bottom-Nav die Ecke) -->
+    <a href="https://wogenau.haus" target="_blank" rel="noopener"
+       class="hidden md:inline-flex fixed bottom-5 right-5 z-40 items-center gap-1.5 text-xs font-medium text-ink-soft bg-card/90 backdrop-blur-sm border border-ink/15 rounded-full pl-3 pr-3.5 py-1.5 hover:bg-card hover:text-ink transition-colors"
+       style="box-shadow:0 8px 20px -10px rgba(34,31,28,.45)"
+       aria-label="Zur Hauptseite wogenau.haus (öffnet in neuem Tab)">↗ <b class="text-ink font-bold">wogenau.haus</b></a>
 
     <!-- Mobile Navigation (Bottom Bar) -->
     <nav class="md:hidden sticky bottom-0 w-full bg-white border-t-4 border-ink flex justify-around p-1 pb-2 z-40" style="border-top: 4px solid #221f1c;">
