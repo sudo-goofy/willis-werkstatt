@@ -291,7 +291,7 @@
                             </li>
                             <li class="flex items-start gap-2">
                                 <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
-                                <span><b>Minderjährige:</b> An RISU-Empfehlung orientieren (<a href="../uvv/UVV-Handbuch-2025-onlineversion.pdf" target="_blank" rel="noopener" class="underline font-bold hover:text-wred-dk">Handbuch S. 48</a>).</span>
+                                <span><b>Minderjährige:</b> An RISU-Empfehlung orientieren. <button type="button" onclick="openRisuModal()" aria-haspopup="dialog" class="inline-flex items-center gap-1 font-bold text-wred-dk hover:text-wred align-baseline"><i data-lucide="table" class="w-4 h-4"></i><span class="underline decoration-2 underline-offset-2">RISU-Tabelle ansehen</span></button></span>
                             </li>
                         </ul>
                     </div>
@@ -486,7 +486,7 @@
 
     <!-- MODAL (Maschinen Details) -->
     <div id="modal" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="brutal-box w-full max-w-2xl bg-white relative flex flex-col" style="max-height: 90vh;" id="modal-content" tabindex="-1">
+        <div class="brutal-box w-full max-w-2xl bg-white relative flex flex-col overflow-hidden" style="max-height: 90vh;" id="modal-content" tabindex="-1">
             <!-- Dynamischer Content -->
         </div>
     </div>
@@ -598,6 +598,7 @@
 
         function openModal(machineId) {
             lastFocusedElement = document.activeElement;
+            modalContent.style.maxWidth = '';
             const m = machines.find(x => x.id === machineId);
             const c = colors[m.type];
             
@@ -645,6 +646,127 @@
             if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                 lastFocusedElement.focus();
             }
+        }
+
+        // --- RISU: Tätigkeitsbeschränkungen für Minderjährige (KMK RISU, Tabelle 4, S. 48) ---
+        const RISU_PDF = 'https://www.kmk.org/fileadmin/Dateien/veroeffentlichungen_beschluesse/1994/1994_09_09-Sicherheit-im-Unterricht.pdf';
+        const risuLevel = {
+            '—':  { cls: 'bg-sand text-ink-soft', term: 'nicht vorgesehen', desc: 'Einsatz nicht vorgesehen.' },
+            'A':  { cls: 'bg-lachs text-ink',     term: 'unter Aufsicht',   desc: 'Schüler*in arbeitet am Gerät, die Lehrkraft steht unmittelbar daneben und beaufsichtigt den Vorgang.' },
+            'TS': { cls: 'bg-honey text-ink',     term: 'teil-selbstständig', desc: 'Schüler*in arbeitet selbstständig, befindet sich jedoch im Blickfeld der Lehrkraft.' },
+            'S':  { cls: 'bg-catgreen text-ink',  term: 'selbstständig',    desc: 'Schüler*in arbeitet selbstständig; die Lehrkraft beaufsichtigt im Rahmen ihrer Dienstpflicht.' }
+        };
+        const risuRows = [
+            ['3D-Druck – Bedienungsanleitung beachten','A','TS','TS'],
+            ['Abkantvorrichtung für Bleche','A','TS','S'],
+            ['Bandschleifmaschine (elektrisch) – nur mit Staubabsaugung','—','TS','S'],
+            ['Bohrschrauber / Akkubohrmaschine','A','TS','S'],
+            ['Dekupiersäge (elektrisch)','A','S','S'],
+            ['Emailbrennofen','A','A','A'],
+            ['Handbohrmaschine (elektrisch)','A','TS','S'],
+            ['Hart- und Weichlötgerät mit offener Flamme','—','A','A'],
+            ['Handblechschere mit Übersetzung','—','A','TS'],
+            ['Heißklebepistole','A','TS','S'],
+            ['Heißluftgerät mit Gebläse','A','A','TS'],
+            ['Heizstrahler','A','A','TS'],
+            ['Kompressor','A','TS','S'],
+            ['Koordinatentisch','A','TS','S'],
+            ['Kunststoffbiegegerät','TS','S','S'],
+            ['Laserbearbeitungsmaschinen (Lasercutter, Lasergravierer)','A','A','TS'],
+            ['Lötkolben und Lötstation (elektrisch)','TS','S','S'],
+            ['Papier- und Materialschneidegerät','A','A','TS'],
+            ['Schwing- und Excenterschleifmaschine (elektrisch) – nur mit Staubabsaugung','TS','S','S'],
+            ['Staubsauger (Werkstatt- und Industriesauger)','A','TS','S'],
+            ['Stich- und Oszillatorsäge (elektrisch)','A','TS','TS'],
+            ['Styropor-Heißdraht-Schneider','TS','S','S'],
+            ['Tellerschleifmaschine (elektrisch) – nur mit Staubabsaugung','A','TS','S'],
+            ['Tiefziehgerät','A','TS','S'],
+            ['Tisch- und Ständerbohrmaschine (elektrisch)','A','TS','S'],
+            ['Universaldreh- und Drechselmaschine','—','—','A'],
+            ['Werkzeugschärf- und Abziehmaschine (elektrisch)','—','—','A'],
+            ['Winkelschleifer<sup class="font-bold text-wred-dk">9</sup>','—','—','A']
+        ];
+
+        function risuBadge(v){
+            const l = risuLevel[v] || { cls: 'bg-sand text-ink-soft', term: '' };
+            return `<span class="inline-flex items-center justify-center min-w-[2.5rem] px-2 py-1 rounded-full border-2 border-ink font-bold text-xs ${l.cls}" title="${l.term}">${v}</span>`;
+        }
+
+        function openRisuModal(){
+            lastFocusedElement = document.activeElement;
+
+            const rows = risuRows.map((r,i) => `
+                <tr class="${i % 2 ? '' : 'bg-paper/50'}">
+                    <th scope="row" class="text-left align-middle px-3 py-2 border-t-2 border-ink/10 font-semibold">${r[0]}</th>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[1])}</td>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[2])}</td>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[3])}</td>
+                </tr>`).join('');
+
+            const legend = Object.entries(risuLevel).map(([k,l]) => `
+                <li class="flex items-start gap-3">
+                    ${risuBadge(k)}
+                    <span class="text-sm"><b>${l.term}</b> — ${l.desc}</span>
+                </li>`).join('');
+
+            modalContent.style.maxWidth = '940px';
+            modalContent.innerHTML = `
+                <div class="bg-honey p-5 md:p-6 border-b-4 border-ink flex justify-between items-start gap-4" style="border-bottom:4px solid #221f1c;">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-white p-2 border-2 border-ink rounded-lg shrink-0" style="border:2px solid #221f1c;">
+                            <i data-lucide="graduation-cap" class="w-7 h-7" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h2 id="modal-title" class="text-2xl md:text-3xl font-black tracking-tight leading-tight">Minderjährige an Maschinen</h2>
+                            <p class="text-sm font-semibold text-ink-soft mt-1">RISU-Orientierung · Tätigkeitsbeschränkungen nach Jahrgangsstufe (KMK)</p>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="brutal-btn bg-white p-2 shrink-0" aria-label="Schließen">
+                        <i data-lucide="x" class="w-7 h-7" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="p-5 md:p-6 overflow-y-auto" style="max-height:72vh;">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-6">${legend}</ul>
+
+                    <div class="overflow-x-auto border-2 border-ink rounded-xl">
+                        <table class="w-full border-collapse text-sm" style="min-width:560px;">
+                            <caption class="sr-only">Tabelle 4: Tätigkeitsbeschränkungen für Schülerinnen und Schüler an Maschinen und Geräten</caption>
+                            <thead>
+                                <tr class="bg-mint text-ink">
+                                    <th rowspan="2" scope="col" class="text-left px-3 py-2 align-bottom">Maschinen- &amp; Geräteeinsatz im Unterricht</th>
+                                    <th colspan="3" scope="colgroup" class="text-center px-2 py-1.5 border-l-2 border-ink/20">Jahrgangsstufen</th>
+                                </tr>
+                                <tr class="bg-mint text-ink">
+                                    <th scope="col" class="text-center px-2 py-1.5 border-l-2 border-ink/20">5/6</th>
+                                    <th scope="col" class="text-center px-2 py-1.5">7/8</th>
+                                    <th scope="col" class="text-center px-2 py-1.5">ab 9</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-sm font-semibold mt-4">An Maschinen und Geräten ist eine Einweisung erforderlich; sie umfasst sicherheitsrelevante Hinweise.</p>
+
+                    <div class="text-xs text-ink-soft mt-3 space-y-1.5 leading-relaxed">
+                        <p><b>8</b> Geräte, die direkt für die Benutzung durch Kinder konzipiert sind und besondere Sicherheitsvorkehrungen beinhalten, können eingesetzt werden, sofern die Gefährdungsbeurteilung zu diesem Ergebnis kommt.</p>
+                        <p><b>9</b> Es darf nur der „kleine" Winkelschleifer mit Scheiben von max. 125 mm Durchmesser verwendet werden. Nur Schruppscheiben, keine Trennscheiben einsetzen. Auf möglichen Funkenflug ist zu achten.</p>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t-2 border-ink/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <p class="text-xs text-ink-soft max-w-sm">Quelle: RISU – Richtlinie zur Sicherheit im Unterricht (KMK), Tabelle 4, S. 48. Auszug, für die Werkstatt aufbereitet.</p>
+                        <a href="${RISU_PDF}" target="_blank" rel="noopener" class="brutal-btn bg-wred text-white px-5 py-2.5 inline-flex items-center justify-center gap-2 text-sm whitespace-nowrap shrink-0" aria-label="Original-PDF der RISU öffnen, Seite 48 (öffnet in neuem Tab)">
+                            <i data-lucide="file-down" class="w-5 h-5" aria-hidden="true"></i> Original-PDF (S. 48)
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            renderIcons();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            modalContent.focus();
         }
 
         modal.addEventListener('click', (e) => {
