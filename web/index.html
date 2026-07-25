@@ -23,21 +23,24 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts: Rubik – die Hausschrift von wogenau.haus -->
+    <!-- Google Fonts: Fira Code (Body/UI) + Kirang Haerang (Wortbild „Willis Werkstatt") -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Kirang+Haerang&display=swap" rel="stylesheet">
 
     <style>
         /* Grundlegendes Styling im Matt Blease / Neo-Brutalismus Style */
         body {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Fira Code', monospace;
             background-color: #f5ead2;
             background-image: radial-gradient(#e7d4ab 0.6px, transparent 0.6px);
             background-size: 24px 24px;
             background-position: -12px -12px;
             color: #221f1c;
         }
+
+        /* Display-Schrift nur fürs Wortbild „Willis Werkstatt" */
+        .font-brand { font-family: 'Kirang Haerang', cursive; font-weight: bold; }
 
         /* Weiche „Papier"-Karte statt harter Neo-Brutalismus-Kante */
         .brutal-box {
@@ -142,7 +145,7 @@
                 <path d="M 57 43 q 6 5 12 0" fill="none" stroke="#221f1c" stroke-width="4" stroke-linecap="round" />
                 <path d="M 32 60 Q 50 80 68 60" fill="none" stroke="#221f1c" stroke-width="4.6" stroke-linecap="round" />
             </svg>
-            <h1 class="font-bold text-2xl md:text-3xl tracking-tight ml-1">Willis Werkstatt</h1>
+            <h1 class="font-brand text-3xl md:text-4xl ml-1 leading-none">Willis Werkstatt</h1>
         </button>
         <div class="flex items-center gap-3 lg:gap-4">
             <!-- Desktop Nav -->
@@ -170,7 +173,7 @@
                     <span class="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.16em] text-wred-dk">
                         <span class="w-6 h-0.5 bg-wred-dk"></span> Die Gemeinschaftswerkstatt von wogenau
                     </span>
-                    <h2 class="text-4xl md:text-6xl font-black leading-[1.02] tracking-tight mt-4 mb-5">Willkommen in Willis <span class="relative whitespace-nowrap text-wred">Werkstatt<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;bottom:-0.14em;width:100%;height:0.2em;overflow:visible"><path d="M3 11C52 3 150 3 197 8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>!</h2>
+                    <h2 class="font-brand text-5xl md:text-7xl leading-[1.08] mt-4 mb-5">Willkommen in Willis <span class="relative whitespace-nowrap text-wred">Werkstatt<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;bottom:-0.14em;width:100%;height:0.2em;overflow:visible"><path d="M3 11C52 3 150 3 197 8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>!</h2>
                     <p class="text-lg md:text-xl text-ink-soft max-w-md mx-auto md:mx-0 mb-7">Hier werkelt unsere Gemeinschaft sicher und kreativ. Hier findest du alle wichtigen Regeln und Infos für ein gutes Miteinander.</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                         <button onclick="switchView('konzept')" class="brutal-btn bg-wred text-white text-lg px-7 py-3.5 inline-flex justify-center items-center gap-3">
@@ -287,7 +290,7 @@
                             </li>
                             <li class="flex items-start gap-2">
                                 <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
-                                <span><b>Kinder, Jugend &amp; Gäste:</b> Nur mit Aufsicht unterwiesener Erwachsener (beschränkt auf Werkzeuge der Kategorie Grün). Die Sorgfaltspflicht obliegt den begleitenden Bewohner*innen mit Unterweisung.</span>
+                                <span><b>Kinder, Jugend &amp; Gäste:</b> Nur mit Aufsicht unterwiesener Erwachsener (beschränkt auf Kategorie Grün). Die Sorgfaltspflicht obliegt den begleitenden Bewohner*innen mit Unterweisung.</span>
                             </li>
                             <li class="flex items-start gap-2">
                                 <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
