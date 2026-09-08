@@ -33,4 +33,4 @@ und Lucide Icons direkt über CDN.
 Online: <https://sudo-goofy.github.io/willis-werkstatt/> (gehostet über GitHub Pages,
 Branch `main`).
 
-Lokal: einfach `web/index.html` im Browser öffnen. Für eine lokale Adresse alternativ:
+Lokal: einfach `web/index.html` im Browser öffnen.
