@@ -17,9 +17,9 @@ Ablauf vor Ort. Motto: **Safety First.**
 
 ## Aufbau
 
-```
+```text
 werkstatt/
-├── web/index.html          # Die App (eine einzelne HTML-Datei)
+├── index.html              # Die App (eine einzelne HTML-Datei)
 ├── Werkstattkonzept.pdf     # Ausführliches Werkstattkonzept
 ├── uvv/                     # UVV-Handbuch (Unfallverhütungsvorschriften)
 └── README.md
@@ -33,4 +33,4 @@ und Lucide Icons direkt über CDN.
 Online: <https://sudo-goofy.github.io/willis-werkstatt/> (gehostet über GitHub Pages,
 Branch `main`).
 
-Lokal: einfach `web/index.html` im Browser öffnen. Für eine lokale Adresse alternativ:
+Lokal: einfach `index.html` im Browser öffnen.

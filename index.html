@@ -2,11 +2,807 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=web/">
-    <link rel="canonical" href="web/">
-    <title>Willis Werkstatt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willis Werkstatt | Safety First</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // WOGENAU-Farbwelt (aus wogenau.haus abgeleitet)
+        tailwind.config = { theme: { extend: { colors: {
+            paper:'#f5ead2', card:'#fffaf0', sand:'#e7d4ab', sandw:'#f4e6c9',
+            ink:'#221f1c', 'ink-soft':'#4c453c',
+            wred:'#c1343f', 'wred-dk':'#ad2f38',
+            mint:'#a5c8c0', 'mint-dk':'#85b5aa', mintw:'#eaf3f0',
+            lachs:'#e59c90', lachsw:'#fbeee9',
+            catgreen:'#9ac79a', catblue:'#7fabd6',
+            honey:'#f1d27a', honeyw:'#f8ead0'
+        }}}};
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Fira Code (Body/UI) + Kirang Haerang (Wortbild „Willis Werkstatt") -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Kirang+Haerang&display=swap" rel="stylesheet">
+
+    <style>
+        /* Grundlegendes Styling im Matt Blease / Neo-Brutalismus Style */
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #f5ead2;
+            background-image: radial-gradient(#e7d4ab 0.6px, transparent 0.6px);
+            background-size: 24px 24px;
+            background-position: -12px -12px;
+            color: #221f1c;
+        }
+
+        /* Display-Schrift nur fürs Wortbild „Willis Werkstatt" */
+        .font-brand { font-family: 'Kirang Haerang', cursive; font-weight: bold; }
+
+        /* Weiche „Papier"-Karte statt harter Neo-Brutalismus-Kante */
+        .brutal-box {
+            border: 2px solid #221f1c;
+            border-radius: 18px;
+            box-shadow: 0 16px 34px -22px rgba(34,31,28,.55);
+            transition: all 0.2s ease;
+            background-color: #fffaf0;
+        }
+
+        .brutal-btn {
+            border: 2px solid #221f1c;
+            border-radius: 999px;
+            box-shadow: 0 8px 18px -12px rgba(34,31,28,.5);
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease;
+        }
+
+        .brutal-btn:hover { transform: translateY(-2px); }
+        .brutal-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px -6px rgba(34,31,28,.5);
+        }
+
+        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1 1 auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .nav-btn.active-nav {
+            background-color: #a5c8c0;
+            color: #221f1c;
+        }
+
+        /* Deutlich sichtbarer Tastatur-Fokus (Motorik / Sehbehinderung) */
+        a:focus-visible,
+        button:focus-visible,
+        summary:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 4px solid #1d4ed8;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* Aufklappbare Sicherheitstipps (freiwillig, kein Pflicht-Check-In) */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary .chevron { transition: transform 0.2s ease; }
+        details[open] > summary .chevron { transform: rotate(180deg); }
+
+        /* Skip-Link: erscheint nur bei Tastatur-Fokus */
+        .skip-link {
+            position: absolute;
+            left: 12px;
+            top: -100px;
+            z-index: 60;
+            background: #221f1c;
+            color: #fff;
+            padding: 12px 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: top 0.15s ease;
+        }
+        .skip-link:focus {
+            top: 12px;
+        }
+
+        /* Animationen abschalten, wenn Nutzer sie reduziert haben möchte */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+            .transform { transform: none !important; }
+        }
+    </style>
 </head>
-<body>
-    <p>Weiter zu <a href="web/">Willis Werkstatt</a> …</p>
+<body class="min-h-screen flex flex-col selection:bg-mint selection:text-ink">
+
+    <a href="#main-content" class="skip-link">Direkt zum Inhalt springen</a>
+
+    <!-- Header / Logo -->
+    <header class="p-4 md:p-5 lg:px-8 border-b-2 border-ink bg-card flex justify-between items-center gap-4 sticky top-0 z-40" style="border-bottom: 2px solid #221f1c;">
+        <button type="button" class="flex items-center gap-3 cursor-pointer group bg-transparent border-0 p-0 text-left" onclick="switchView('intro')" aria-label="Zur Startseite">
+            <svg viewBox="0 0 100 100" class="w-11 h-11 md:w-14 md:h-14 transform -rotate-6 group-hover:rotate-6 transition-transform origin-center" role="img" aria-label="Logo Willis Werkstatt">
+                <title>Logo Willis Werkstatt</title>
+                <!-- Willi: Tinten-Linie auf Lachs (Wogenau-Illustrationsstil) -->
+                <path d="M 50 4 C 74 4, 95 16, 94 50 C 93 82, 78 95, 50 94 C 17 93, 6 78, 6 50 C 6 21, 22 4, 50 4 Z" fill="#e59c90" stroke="#221f1c" stroke-width="4" stroke-linejoin="round" />
+                <circle cx="37" cy="42" r="4.6" fill="#221f1c" />
+                <path d="M 57 43 q 6 5 12 0" fill="none" stroke="#221f1c" stroke-width="4" stroke-linecap="round" />
+                <path d="M 32 60 Q 50 80 68 60" fill="none" stroke="#221f1c" stroke-width="4.6" stroke-linecap="round" />
+            </svg>
+            <h1 class="font-brand text-3xl md:text-4xl ml-1 leading-none">Willis Werkstatt</h1>
+        </button>
+        <div class="flex items-center gap-3 lg:gap-4">
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex gap-3 lg:gap-4">
+                <button onclick="switchView('konzept')" id="nav-konzept" class="nav-btn brutal-btn bg-card px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-5 h-5"></i> Konzept
+                </button>
+                <button onclick="switchView('maschinen')" id="nav-maschinen" class="nav-btn brutal-btn bg-card px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="wrench" class="w-5 h-5"></i> Werkzeug
+                </button>
+                <button onclick="switchView('notfall')" id="nav-notfall" class="nav-btn brutal-btn bg-wred px-4 py-2 flex items-center gap-2 text-white">
+                    <i data-lucide="siren" class="w-5 h-5"></i> Notfall
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="flex-grow w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col">
+
+        <!-- ==================== VIEW: INTRO ==================== -->
+        <section id="view-intro" class="view active">
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center py-4 w-full">
+                <!-- Text -->
+                <div class="order-2 md:order-1 text-center md:text-left">
+                    <span class="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.16em] text-wred-dk">
+                        <span class="w-6 h-0.5 bg-wred-dk"></span> Die Gemeinschaftswerkstatt von wogenau
+                    </span>
+                    <h2 class="font-brand text-5xl md:text-7xl leading-[1.08] mt-4 mb-5">Willkommen in Willis <span class="relative whitespace-nowrap text-wred">Werkstatt<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;bottom:-0.14em;width:100%;height:0.2em;overflow:visible"><path d="M3 11C52 3 150 3 197 8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>!</h2>
+                    <p class="text-lg md:text-xl text-ink-soft max-w-md mx-auto md:mx-0 mb-7">Hier werkelt unsere Gemeinschaft sicher und kreativ. Hier findest du alle wichtigen Regeln und Infos für ein gutes Miteinander.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button onclick="switchView('konzept')" class="brutal-btn bg-wred text-white text-lg px-7 py-3.5 inline-flex justify-center items-center gap-3">
+                            <i data-lucide="book-open" class="w-6 h-6"></i> Konzept lesen
+                        </button>
+                        <button onclick="switchView('maschinen')" class="brutal-btn bg-card text-ink text-lg px-7 py-3.5 inline-flex justify-center items-center gap-3">
+                            Zum Werkzeug <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Willi im Mint-Blob -->
+                <div class="order-1 md:order-2 relative flex justify-center items-center">
+                    <div class="bg-mint flex items-center justify-center" style="width:min(340px,78vw);aspect-ratio:1;border-radius:47% 53% 52% 48% / 55% 46% 54% 45%;box-shadow:0 24px 50px -22px rgba(34,31,28,.42)">
+                        <svg viewBox="0 0 120 120" class="w-3/4 transform -rotate-3" role="img" aria-label="Willi, das Werkstatt-Maskottchen">
+                            <title>Willi</title>
+                            <path d="M60 12C82 12 101 24 100 54 99 82 85 94 60 93 30 92 20 78 20 52 20 26 36 12 60 12Z" fill="#e59c90" stroke="#221f1c" stroke-width="3.4" stroke-linejoin="round"/>
+                            <circle cx="47" cy="48" r="4.4" fill="#221f1c"/>
+                            <path d="M67 49q6 5 12 0" fill="none" stroke="#221f1c" stroke-width="3.4" stroke-linecap="round"/>
+                            <path d="M42 65q18 20 36 0" fill="none" stroke="#221f1c" stroke-width="4.2" stroke-linecap="round"/>
+                            <path d="M30 104q7-7 14 0t14 0 14 0 14 0" fill="none" stroke="#85b5aa" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="absolute -top-1 right-2 md:right-6 bg-wred text-white w-24 h-24 md:w-28 md:h-28 rounded-full flex flex-col items-center justify-center font-black leading-none text-center rotate-12 border-[3px] border-paper" style="box-shadow:0 12px 24px -8px rgba(193,52,63,.6)">WERK<br>GENAU<span class="text-[10px] font-normal opacity-90 mt-1 tracking-wide">hier</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: KONZEPT (NEU) ==================== -->
+        <section id="view-konzept" class="view">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-mint p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #221f1c;">
+                    <i data-lucide="book-open" class="w-8 h-8" stroke-width="2.5"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">Unser Konzept</h2>
+                    <p class="text-base md:text-lg font-normal text-gray-700">Die wichtigsten Regeln &amp; Rahmenbedingungen auf einen Blick</p>
+                </div>
+            </div>
+
+            <!-- Quick Facts Banderole -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="clock" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zeiten</span>
+                        <span class="font-bold text-sm leading-tight block">09:00–19:00 Uhr</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="key-round" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Zugang</span>
+                        <span class="font-bold text-sm leading-tight block">Ab 18 J. + Einweisung</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="piggy-bank" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Kosten</span>
+                        <span class="font-bold text-sm leading-tight block">Kostenlos (Bewohner)</span>
+                    </div>
+                </div>
+                <div class="brutal-box p-3 bg-white flex items-center gap-3">
+                    <i data-lucide="calendar-off" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <div>
+                        <span class="text-xs uppercase font-bold text-gray-500 block leading-none">Termine</span>
+                        <span class="font-bold text-sm leading-tight block">Kein Slot nötig</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutzungsvereinbarung Box -->
+            <div class="brutal-box p-5 bg-lachs mb-8">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-ink shrink-0" stroke-width="2.5"></i>
+                    <h3 class="text-xl font-black tracking-tight">Grundsatz für die Werkstattnutzung</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-normal text-sm md:text-base">
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
+                        <span class="text-xl shrink-0">📜</span>
+                        <span><b>Einverständnis:</b> Mit Nutzung akzeptierst du dieses Nutzungskonzept &amp; alle Vorgaben.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
+                        <span class="text-xl shrink-0">🛠️</span>
+                        <span><b>Werkzeugkunde:</b> Nur Werkzeuge nutzen, deren Gefahren &amp; Einsatz dir bekannt sind.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
+                        <span class="text-xl shrink-0">🧹</span>
+                        <span><b>Sorgfalt &amp; Ordnung:</b> Auf Mitmenschen achten &amp; Werkstatt sauber hinterlassen.</span>
+                    </div>
+                    <div class="flex items-start gap-2.5 bg-white/80 p-3 rounded-lg border-2 border-ink">
+                        <span class="text-xl shrink-0">⚠️</span>
+                        <span><b>Schäden &amp; Risiken:</b> Sofort kennzeichnen &amp; mit Werkstattwart*innen absprechen.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Die 3 Säulen -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- 1. Zugang -->
+                <div class="brutal-box p-6 bg-mintw flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="key" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">1. Zugang</h3>
+                            </div>
+                        </div>
+                        
+                        <ul class="space-y-3 font-normal text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Bewohner*innen (ab 18):</b> Selbstständig nach Einweisung (Werkzeuge der Kategorie Grün). Für Kategorie Blau ist eine Zusatz-Einweisung nötig.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Kinder, Jugend &amp; Gäste:</b> Nur mit Aufsicht unterwiesener Erwachsener (beschränkt auf Kategorie Grün). Die Sorgfaltspflicht obliegt den begleitenden Bewohner*innen mit Unterweisung.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="file-text" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Minderjährige:</b> An RISU-Empfehlung orientieren. <button type="button" onclick="openRisuModal()" aria-haspopup="dialog" class="inline-flex items-center gap-1 font-bold text-wred-dk hover:text-wred align-baseline"><i data-lucide="table" class="w-4 h-4"></i><span class="underline decoration-2 underline-offset-2">RISU-Tabelle ansehen</span></button></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Nutzungszeiten -->
+                <div class="brutal-box p-6 bg-lachsw flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="clock" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">2. Zeiten</h3>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 font-normal text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="volume-2" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Laute Arbeiten:</b> 09:00 – 19:00 Uhr (Sonntagsruhe). Tür möglichst bitte geschlossen halten.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="users" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Keine Slots:</b> Ohne Buchung vorbeikommen. Raum für Austausch &amp; Miteinander.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="calendar" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Große Projekte:</b> Bei viel Platzbedarf im Wandkalender vor Ort vormerken.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Finanzierung -->
+                <div class="brutal-box p-6 bg-sandw flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-3 border-ink" style="border-bottom: 3px solid #221f1c;">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="piggy-bank" class="w-8 h-8 text-ink" stroke-width="2.5"></i>
+                                <h3 class="text-2xl font-black">3. Kosten</h3>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-3 font-normal text-base">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="heart-handshake" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Bewohner*innen:</b> Kostenlos. Spenden für Verschleiß in Spendenbox / PayPal-Pool.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="user-check" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Gäste &amp; Nachbarn:</b> Stundenbasierte Spendenempfehlung + Materialkosten.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="sparkles" class="w-5 h-5 mt-1 shrink-0 text-ink" stroke-width="2.5"></i>
+                                <span><b>Workshops:</b> Spenden zur Deckung von Zeit, Ausstattung &amp; Material.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="switchView('maschinen')" class="brutal-btn bg-wred text-white text-lg px-6 py-3 inline-flex items-center gap-2">
+                    Weiter zum Werkzeug <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: WERKZEUG ==================== -->
+        <section id="view-maschinen" class="view">
+
+            <!-- Sicherheitstipps: freiwillig & aufklappbar (ersetzt den früheren Pflicht-Check-In) -->
+            <details class="brutal-box bg-honey mb-8">
+                <summary class="cursor-pointer flex items-center gap-3 p-4 font-bold text-lg select-none">
+                    <i data-lucide="lightbulb" class="w-6 h-6 shrink-0" stroke-width="2.5"></i>
+                    <span>Sicherheitstipps</span>
+                    <span class="text-sm font-normal text-gray-500 hidden sm:inline">– freiwillig, aber empfohlen</span>
+                    <span class="chevron ml-auto shrink-0"><i data-lucide="chevron-down" class="w-5 h-5"></i></span>
+                </summary>
+                <div class="px-4 pb-4 border-t-3 border-ink" style="border-top: 3px solid #221f1c;">
+                    <p class="text-sm font-normal text-gray-600 mt-3 mb-3">Kein Muss – nur eine kleine Erinnerung fürs sichere Werkeln:</p>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 font-normal">
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Passende Kleidung – keine losen Bänder oder Schals</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Lange Haare zusammenbinden</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Festes Schuhwerk tragen</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Schutzbrille &amp; Gehörschutz griffbereit</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Werkstück sicher einspannen</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Fit &amp; aufmerksam bleiben (kein Alkohol)</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Arbeitsplatz aufgeräumt halten</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="check" class="w-5 h-5 mt-0.5 shrink-0 text-ink" stroke-width="2.5"></i><span>Not-Aus-Schalter kennen</span></li>
+                    </ul>
+                </div>
+            </details>
+
+            <!-- Ampelsystem Legende (Angepasst auf 2 Stufen: Grün & Blau) -->
+            <div class="brutal-box bg-card p-6 mb-12 flex flex-col md:flex-row gap-6 items-center justify-between">
+                <h3 class="text-2xl font-bold whitespace-nowrap hidden lg:block">Nutzungs-Kategorien:</h3>
+                <div class="flex flex-col md:flex-row w-full gap-4">
+                    <div class="flex items-center gap-3 flex-1 bg-catgreen p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">1</div>
+                        <div>
+                            <span class="font-bold block leading-tight">Kategorie Grün</span>
+                            <span class="text-sm font-normal leading-tight">Grundlagen & Handwerkzeug</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 flex-1 bg-catblue p-3 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white border-3 border-ink rounded-full font-black text-xl" style="border: 3px solid #221f1c;">2</div>
+                        <div>
+                            <span class="font-bold block leading-tight">Kategorie Blau</span>
+                            <span class="text-sm font-normal leading-tight">Erweiterung (Im Schrank verschlossen)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 mb-8">
+                <div class="bg-mint p-3 brutal-box box-shadow-none" style="box-shadow: 2px 2px 0px #221f1c;">
+                    <i data-lucide="wrench" class="w-8 h-8" stroke-width="2.5"></i>
+                </div>
+                <h2 class="text-4xl font-bold tracking-tight">Werkzeug & Regeln</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="machine-grid">
+                <!-- Generiert via JS -->
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: NOTFALL ==================== -->
+        <section id="view-notfall" class="view">
+            <div class="brutal-box bg-wred text-white p-5 md:p-6 mb-4 border-4 border-ink">
+                <div class="flex items-center justify-center gap-4 mb-2">
+                    <i data-lucide="siren" class="w-12 h-12 animate-pulse" stroke-width="2.5"></i>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black text-center uppercase tracking-tighter mb-3">112</h2>
+                <h3 class="text-xl font-bold text-center mb-5">Rettungsdienst & Notarzt</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-ink">
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="activity" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Erste Hilfe</h4>
+                        <p class="font-normal">Kasten hängt direkt links neben der Eingangstür.</p>
+                    </div>
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="flame" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Feuerlöscher</h4>
+                        <p class="font-normal">Im Flur und markiert neben der großen Werkbank.</p>
+                    </div>
+                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
+                        <i data-lucide="power-off" class="w-8 h-8 mb-2 text-wred"></i>
+                        <h4 class="font-bold text-lg mb-1">Not-Aus</h4>
+                        <p class="font-normal">Roter Pilzschalter am Stromkasten (Türe rechts).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UVV Dokumente -->
+            <div class="brutal-box bg-lachs p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold mb-1">Die Nutzungsordnung</h3>
+                    <p class="text-lg font-normal">Das volle Dokument mit allen Details und dem offiziellen Regelwerk.</p>
+                </div>
+                <div class="flex w-full md:w-auto">
+                    <a href="uvv/UVV-Handbuch-2025-onlineversion.pdf" target="_blank" rel="noopener" class="brutal-btn bg-white px-5 py-3 flex items-center justify-center gap-3 whitespace-nowrap text-lg w-full" aria-label="UVV-Handbuch als PDF öffnen (öffnet in neuem Tab)">
+                        <i data-lucide="download" class="w-6 h-6" aria-hidden="true"></i> UVV-Handbuch (PDF)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Parent-Link (nur Desktop – mobil belegt die Bottom-Nav die Ecke) -->
+    <a href="https://wogenau.haus" target="_blank" rel="noopener"
+       class="hidden md:inline-flex fixed bottom-5 right-5 z-40 items-center gap-1.5 text-xs font-medium text-ink-soft bg-card/90 backdrop-blur-sm border border-ink/15 rounded-full pl-3 pr-3.5 py-1.5 hover:bg-card hover:text-ink transition-colors"
+       style="box-shadow:0 8px 20px -10px rgba(34,31,28,.45)"
+       aria-label="Zur Hauptseite wogenau.haus (öffnet in neuem Tab)">↗ <b class="text-ink font-bold">wogenau.haus</b></a>
+
+    <!-- Mobile Navigation (Bottom Bar) -->
+    <nav class="md:hidden sticky bottom-0 w-full bg-white border-t-4 border-ink flex justify-around p-1 pb-2 z-40" style="border-top: 4px solid #221f1c;">
+        <button onclick="switchView('konzept')" id="mob-konzept" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 rounded-lg">
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+            <span class="text-xs font-bold uppercase">Konzept</span>
+        </button>
+        <button onclick="switchView('maschinen')" id="mob-maschinen" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 border-l-2 border-r-2 border-ink rounded-none">
+            <i data-lucide="wrench" class="w-5 h-5"></i>
+            <span class="text-xs font-bold uppercase">Werkzeug</span>
+        </button>
+        <button onclick="switchView('notfall')" id="mob-notfall" class="nav-btn p-2 flex flex-col items-center gap-1 flex-1 text-wred rounded-lg">
+            <i data-lucide="siren" class="w-5 h-5"></i>
+            <span class="text-xs font-bold uppercase text-ink">Notfall</span>
+        </button>
+    </nav>
+
+    <!-- MODAL (Maschinen Details) -->
+    <div id="modal" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="brutal-box w-full max-w-2xl bg-white relative flex flex-col overflow-hidden" style="max-height: 90vh;" id="modal-content" tabindex="-1">
+            <!-- Dynamischer Content -->
+        </div>
+    </div>
+
+    <!-- JavaScript Logik -->
+    <script>
+        // Icons rendern und – da alle dekorativ sind (überall steht Text daneben) –
+        // vor Screenreadern verbergen.
+        function renderIcons() {
+            lucide.createIcons();
+            document.querySelectorAll('svg.lucide').forEach(svg => {
+                if (!svg.hasAttribute('aria-label')) {
+                    svg.setAttribute('aria-hidden', 'true');
+                    svg.setAttribute('focusable', 'false');
+                }
+            });
+        }
+        renderIcons();
+
+        // --- 1. SEITEN-NAVIGATION LOGIK ---
+        function switchView(viewId) {
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${viewId}`).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active-nav'));
+            
+            if(viewId !== 'intro') {
+                const deskBtn = document.getElementById(`nav-${viewId}`);
+                const mobBtn = document.getElementById(`mob-${viewId}`);
+                if(deskBtn) deskBtn.classList.add('active-nav');
+                if(mobBtn) mobBtn.classList.add('active-nav');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // --- 2. MASCHINEN DATENBANK (Exakt nach PDF Konzept) ---
+        const machines = [
+            { id: 'bike', name: 'Fahrrad-Station', type: 'green', icon: 'bike', 
+              desc: 'Ausstattung für Reparatur und Wartung: Montageständer, Pumpen, Werkzeug.',
+              rules: ['Verschmutzte Teile über Wanne/Tuch reinigen.', 'Drehmomentschlüssel nach Nutzung entspannen.', 'Schmiermittel zurück in den Schrank stellen.'] },
+            
+            { id: 'akku', name: 'Akkuschrauber (4x)', type: 'green', icon: 'zap', 
+              desc: 'Für Schraub- und leichte Bohrarbeiten.',
+              rules: ['Passenden Bit verwenden.', 'Leere Akkus in die Ladestation stecken.', 'Beim Bohren Werkstück fixieren.'] },
+            
+            { id: 'schleifer', name: 'Schleifgeräte', type: 'green', icon: 'disc', 
+              desc: '2 Exzenterschleifer und 1 Deltaschleifer.',
+              rules: ['Immer mit Absaugung nutzen.', 'Schleifpapier rechtzeitig wechseln.', 'Ohne großen Druck führen – die Maschine arbeiten lassen.'] },
+            
+            { id: 'bohrmaschine', name: 'Standbohrmaschine', type: 'green', icon: 'arrow-down-circle', 
+              desc: 'Für präzise, senkrechte Bohrungen.',
+              rules: ['Keine Handschuhe tragen (Einzugsgefahr).', 'Schutzbrille tragen.', 'Werkstück im Schraubstock festspannen.', 'Bohrfutterschlüssel direkt abziehen.'] },
+
+            { id: 'handwerkzeug', name: 'Handwerkzeuge', type: 'green', icon: 'hammer', 
+              desc: 'Feilen, Schraubenzieher, Hammer, Handsägen, Stemmeisen.',
+              rules: ['Stemmeisen immer vom Körper weg führen.', 'Werkzeug gereinigt zurücklegen.'] },
+
+            { id: 'kappsaege', name: 'Kappsäge', type: 'blue', icon: 'crosshair', 
+              desc: 'Separat verschlossen. Zum präzisen Ablängen von Holz.',
+              rules: ['Gehörschutz und Schutzbrille tragen.', 'Hände außerhalb der markierten roten Zone halten.', 'Sägeblatt vor dem Hochschwenken komplett stoppen lassen.'] },
+            
+            { id: 'handkreissaege', name: 'Handkreissäge', type: 'blue', icon: 'square-slash', 
+              desc: 'Separat verschlossen. Zur Nutzung mit Führungsschiene.',
+              rules: ['Schnitttiefe passend einstellen (max. 5 mm tiefer als Werkstück).', 'Kabel sicher hinter die Schnittrichtung führen.', 'Führungsschiene festspannen.'] },
+
+            { id: 'stichsaege', name: 'Stichsägen (2x)', type: 'blue', icon: 'activity', 
+              desc: 'Separat verschlossen. Für Kurvenschnitte und Ausklinkungen.',
+              rules: ['Werkstück fest einspannen.', 'Stillstand abwarten, bevor die Säge aus dem Schnitt gezogen wird.'] },
+            
+            { id: 'bandsaege', name: 'Bandsäge', type: 'blue', icon: 'move-vertical', 
+              desc: 'Separat verschlossen. Mit neigbarem Tisch für Schweifarbeiten.',
+              rules: ['Blattführung knapp über dem Werkstück einstellen.', 'Werkstück gleichmäßig führen.', 'Hände flach auflegen und nie in Schnittrichtung führen.'] },
+
+            { id: 'oberfraese', name: 'Oberfräse', type: 'blue', icon: 'move', 
+              desc: 'Separat verschlossen. Für saubere Kanten- und Profilarbeiten.',
+              rules: ['Netzstecker ziehen vor dem Fräserwechsel.', 'Immer im Gegenlauf fräsen.', 'Werkstück sicher fixieren.'] }
+        ];
+
+        const colors = {
+            'green': { bg: 'bg-catgreen', text: 'Kategorie Grün (Offen)' },
+            'blue': { bg: 'bg-catblue', text: 'Kategorie Blau (Verschlossen)' }
+        };
+
+        const machineGrid = document.getElementById('machine-grid');
+        machines.forEach(m => {
+            const c = colors[m.type];
+            const html = `
+                <button type="button" onclick="openModal('${m.id}')" class="brutal-box ${c.bg} p-6 cursor-pointer transform hover:-translate-y-1 transition-transform flex flex-col justify-between h-full text-left w-full" aria-label="${m.name} – Regeln lesen (${c.text})" aria-haspopup="dialog">
+                    <div class="flex justify-between items-start mb-6 border-b-3 border-ink pb-4" style="border-bottom: 3px solid #221f1c;">
+                        <i data-lucide="${m.icon}" class="w-10 h-10" stroke-width="2.5" aria-hidden="true"></i>
+                        <span class="bg-white px-3 py-1 font-bold text-xs uppercase border-2 border-ink rounded-full" style="border: 2px solid #221f1c;">
+                            ${c.text}
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-2xl tracking-tight mb-2">${m.name}</h3>
+                        <p class="font-bold font-mono text-sm underline decoration-2 underline-offset-4">Regeln lesen &rarr;</p>
+                    </div>
+                </button>
+            `;
+            machineGrid.innerHTML += html;
+        });
+
+        // --- 4. MODAL LOGIK ---
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        let lastFocusedElement = null;
+
+        function openModal(machineId) {
+            lastFocusedElement = document.activeElement;
+            modalContent.style.maxWidth = '';
+            const m = machines.find(x => x.id === machineId);
+            const c = colors[m.type];
+            
+            let rulesHtml = m.rules.map(rule => `
+                <li class="flex items-start gap-3 mb-4">
+                    <i data-lucide="alert-triangle" class="w-6 h-6 shrink-0 mt-1" aria-hidden="true"></i>
+                    <span class="font-bold text-lg">${rule}</span>
+                </li>
+            `).join('');
+
+            modalContent.innerHTML = `
+                <div class="${c.bg} p-6 md:p-8 border-b-4 border-ink flex justify-between items-center" style="border-bottom: 4px solid #221f1c;">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white p-2 border-3 border-ink rounded-lg" style="border: 3px solid #221f1c;">
+                            <i data-lucide="${m.icon}" class="w-8 h-8" aria-hidden="true"></i>
+                        </div>
+                        <h2 id="modal-title" class="text-3xl md:text-4xl font-black tracking-tight">${m.name}</h2>
+                    </div>
+                    <button onclick="closeModal()" class="brutal-btn bg-white p-2" aria-label="Schließen">
+                        <i data-lucide="x" class="w-8 h-8" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6 md:p-8 overflow-y-auto" style="max-height: 60vh;">
+                    <p class="text-xl font-normal mb-8 pb-6 border-b-2 border-ink border-dashed">${m.desc}</p>
+                    
+                    <div class="bg-white brutal-box box-shadow-none p-6 md:p-8" style="box-shadow: 4px 4px 0px #221f1c;">
+                        <h3 class="font-black text-2xl mb-6">Wichtige Regeln:</h3>
+                        <ul>${rulesHtml}</ul>
+                    </div>
+                </div>
+            `;
+
+            renderIcons();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            // Fokus in den Dialog setzen (Tastatur / Screenreader)
+            modalContent.focus();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Fokus zurück auf das auslösende Element
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+        }
+
+        // --- RISU: Tätigkeitsbeschränkungen für Minderjährige (KMK RISU, Tabelle 4, S. 48) ---
+        const RISU_PDF = 'https://www.kmk.org/fileadmin/Dateien/veroeffentlichungen_beschluesse/1994/1994_09_09-Sicherheit-im-Unterricht.pdf';
+        const risuLevel = {
+            '—':  { cls: 'bg-sand text-ink-soft', term: 'nicht vorgesehen', desc: 'Einsatz nicht vorgesehen.' },
+            'A':  { cls: 'bg-lachs text-ink',     term: 'unter Aufsicht',   desc: 'Schüler*in arbeitet am Gerät, die Lehrkraft steht unmittelbar daneben und beaufsichtigt den Vorgang.' },
+            'TS': { cls: 'bg-honey text-ink',     term: 'teil-selbstständig', desc: 'Schüler*in arbeitet selbstständig, befindet sich jedoch im Blickfeld der Lehrkraft.' },
+            'S':  { cls: 'bg-catgreen text-ink',  term: 'selbstständig',    desc: 'Schüler*in arbeitet selbstständig; die Lehrkraft beaufsichtigt im Rahmen ihrer Dienstpflicht.' }
+        };
+        const risuRows = [
+            ['3D-Druck – Bedienungsanleitung beachten','A','TS','TS'],
+            ['Abkantvorrichtung für Bleche','A','TS','S'],
+            ['Bandschleifmaschine (elektrisch) – nur mit Staubabsaugung','—','TS','S'],
+            ['Bohrschrauber / Akkubohrmaschine','A','TS','S'],
+            ['Dekupiersäge (elektrisch)','A','S','S'],
+            ['Emailbrennofen','A','A','A'],
+            ['Handbohrmaschine (elektrisch)','A','TS','S'],
+            ['Hart- und Weichlötgerät mit offener Flamme','—','A','A'],
+            ['Handblechschere mit Übersetzung','—','A','TS'],
+            ['Heißklebepistole','A','TS','S'],
+            ['Heißluftgerät mit Gebläse','A','A','TS'],
+            ['Heizstrahler','A','A','TS'],
+            ['Kompressor','A','TS','S'],
+            ['Koordinatentisch','A','TS','S'],
+            ['Kunststoffbiegegerät','TS','S','S'],
+            ['Laserbearbeitungsmaschinen (Lasercutter, Lasergravierer)','A','A','TS'],
+            ['Lötkolben und Lötstation (elektrisch)','TS','S','S'],
+            ['Papier- und Materialschneidegerät','A','A','TS'],
+            ['Schwing- und Excenterschleifmaschine (elektrisch) – nur mit Staubabsaugung','TS','S','S'],
+            ['Staubsauger (Werkstatt- und Industriesauger)','A','TS','S'],
+            ['Stich- und Oszillatorsäge (elektrisch)','A','TS','TS'],
+            ['Styropor-Heißdraht-Schneider','TS','S','S'],
+            ['Tellerschleifmaschine (elektrisch) – nur mit Staubabsaugung','A','TS','S'],
+            ['Tiefziehgerät','A','TS','S'],
+            ['Tisch- und Ständerbohrmaschine (elektrisch)','A','TS','S'],
+            ['Universaldreh- und Drechselmaschine','—','—','A'],
+            ['Werkzeugschärf- und Abziehmaschine (elektrisch)','—','—','A'],
+            ['Winkelschleifer<sup class="font-bold text-wred-dk">9</sup>','—','—','A']
+        ];
+
+        function risuBadge(v){
+            const l = risuLevel[v] || { cls: 'bg-sand text-ink-soft', term: '' };
+            return `<span class="inline-flex items-center justify-center min-w-[2.5rem] px-2 py-1 rounded-full border-2 border-ink font-bold text-xs ${l.cls}" title="${l.term}">${v}</span>`;
+        }
+
+        function openRisuModal(){
+            lastFocusedElement = document.activeElement;
+
+            const rows = risuRows.map((r,i) => `
+                <tr class="${i % 2 ? '' : 'bg-paper/50'}">
+                    <th scope="row" class="text-left align-middle px-3 py-2 border-t-2 border-ink/10 font-normal">${r[0]}</th>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[1])}</td>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[2])}</td>
+                    <td class="text-center align-middle px-2 py-2 border-t-2 border-ink/10">${risuBadge(r[3])}</td>
+                </tr>`).join('');
+
+            const legend = Object.entries(risuLevel).map(([k,l]) => `
+                <li class="flex items-start gap-3">
+                    ${risuBadge(k)}
+                    <span class="text-sm"><b>${l.term}</b> — ${l.desc}</span>
+                </li>`).join('');
+
+            modalContent.style.maxWidth = '940px';
+            modalContent.innerHTML = `
+                <div class="bg-honey p-5 md:p-6 border-b-4 border-ink flex justify-between items-start gap-4" style="border-bottom:4px solid #221f1c;">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-white p-2 border-2 border-ink rounded-lg shrink-0" style="border:2px solid #221f1c;">
+                            <i data-lucide="graduation-cap" class="w-7 h-7" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h2 id="modal-title" class="text-2xl md:text-3xl font-black tracking-tight leading-tight">Minderjährige an Maschinen</h2>
+                            <p class="text-sm font-normal text-ink-soft mt-1">RISU-Orientierung · Tätigkeitsbeschränkungen nach Jahrgangsstufe (KMK)</p>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="brutal-btn bg-white p-2 shrink-0" aria-label="Schließen">
+                        <i data-lucide="x" class="w-7 h-7" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="p-5 md:p-6 overflow-y-auto" style="max-height:72vh;">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-6">${legend}</ul>
+
+                    <div class="overflow-x-auto border-2 border-ink rounded-xl">
+                        <table class="w-full border-collapse text-sm" style="min-width:560px;">
+                            <caption class="sr-only">Tabelle 4: Tätigkeitsbeschränkungen für Schülerinnen und Schüler an Maschinen und Geräten</caption>
+                            <thead>
+                                <tr class="bg-mint text-ink">
+                                    <th rowspan="2" scope="col" class="text-left px-3 py-2 align-bottom">Maschinen- &amp; Geräteeinsatz im Unterricht</th>
+                                    <th colspan="3" scope="colgroup" class="text-center px-2 py-1.5 border-l-2 border-ink/20">Jahrgangsstufen</th>
+                                </tr>
+                                <tr class="bg-mint text-ink">
+                                    <th scope="col" class="text-center px-2 py-1.5 border-l-2 border-ink/20">5/6</th>
+                                    <th scope="col" class="text-center px-2 py-1.5">7/8</th>
+                                    <th scope="col" class="text-center px-2 py-1.5">ab 9</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-sm font-normal mt-4">An Maschinen und Geräten ist eine Einweisung erforderlich; sie umfasst sicherheitsrelevante Hinweise.</p>
+
+                    <div class="text-xs text-ink-soft mt-3 space-y-1.5 leading-relaxed">
+                        <p><b>8</b> Geräte, die direkt für die Benutzung durch Kinder konzipiert sind und besondere Sicherheitsvorkehrungen beinhalten, können eingesetzt werden, sofern die Gefährdungsbeurteilung zu diesem Ergebnis kommt.</p>
+                        <p><b>9</b> Es darf nur der „kleine" Winkelschleifer mit Scheiben von max. 125 mm Durchmesser verwendet werden. Nur Schruppscheiben, keine Trennscheiben einsetzen. Auf möglichen Funkenflug ist zu achten.</p>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t-2 border-ink/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <p class="text-xs text-ink-soft max-w-sm">Quelle: RISU – Richtlinie zur Sicherheit im Unterricht (KMK), Tabelle 4, S. 48. Auszug, für die Werkstatt aufbereitet.</p>
+                        <a href="${RISU_PDF}" target="_blank" rel="noopener" class="brutal-btn bg-wred text-white px-5 py-2.5 inline-flex items-center justify-center gap-2 text-sm whitespace-nowrap shrink-0" aria-label="Original-PDF der RISU öffnen, Seite 48 (öffnet in neuem Tab)">
+                            <i data-lucide="file-down" class="w-5 h-5" aria-hidden="true"></i> Original-PDF (S. 48)
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            renderIcons();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            modalContent.focus();
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display !== 'flex') return;
+
+            if (e.key === 'Escape') {
+                closeModal();
+                return;
+            }
+
+            // Fokus-Falle: Tab bleibt innerhalb des Dialogs
+            if (e.key === 'Tab') {
+                const focusable = modalContent.querySelectorAll(
+                    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+                );
+                if (focusable.length === 0) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+
+    </script>
 </body>
 </html>
