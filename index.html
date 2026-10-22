@@ -100,6 +100,13 @@
         .sign img { width: 3.5rem; height: 3.5rem; margin: 0 auto; object-fit: contain; mix-blend-mode: multiply; }
         .sign figcaption { font-size: 0.7rem; line-height: 1.15; margin-top: 0.3rem; color: #4c453c; }
 
+        /* Schrittnummer in den Notfall-Abläufen */
+        .step-no {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 1.6rem; height: 1.6rem; margin-right: 0.5rem; border-radius: 999px;
+            background: #221f1c; color: #fffaf0; font-size: 0.85rem; vertical-align: 0.1em;
+        }
+
         /* Regel-Aufzählung mit Tinten-Punkt */
         .rule-list > li { position: relative; padding-left: 1.25rem; }
         .rule-list > li + li { margin-top: 0.75rem; }
@@ -615,31 +622,111 @@
         </section>
 
         <!-- ==================== VIEW: NOTFALL ==================== -->
+        <!-- Inhalt: 11_Aushänge und Erinnerungskarten, S. 3 „Verhalten bei Unfällen" + S. 4 „Verhalten im Brandfall" (Stand 30.10.2026) -->
         <section id="view-notfall" class="view">
-            <div class="brutal-box bg-wred text-white p-5 md:p-6 mb-4 border-4 border-ink">
-                <div class="flex items-center justify-center gap-4 mb-2">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-wred text-white p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #221f1c;">
+                    <i data-lucide="siren" class="w-8 h-8" stroke-width="2.5"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">Notfall</h2>
+                    <p class="text-sm md:text-base font-normal text-ink-soft">Willis Werkstatt · Willis Kollektiv e.V. · Stand 30.10.2026</p>
+                </div>
+            </div>
+
+            <!-- Notruf + Adresse -->
+            <div class="brutal-box bg-wred text-white p-5 md:p-6 mb-8 flex flex-col md:flex-row md:items-center gap-5" style="border-width: 3px;">
+                <div class="flex items-center gap-4 shrink-0">
                     <i data-lucide="siren" class="w-12 h-12 animate-pulse" stroke-width="2.5"></i>
-                </div>
-                <h2 class="text-5xl md:text-7xl font-black text-center uppercase tracking-tighter mb-3">112</h2>
-                <h3 class="text-xl font-bold text-center mb-5">Rettungsdienst & Notarzt</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-ink">
-                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
-                        <i data-lucide="activity" class="w-8 h-8 mb-2 text-wred"></i>
-                        <h4 class="font-bold text-lg mb-1">Erste Hilfe</h4>
-                        <p class="font-normal">Kasten hängt direkt links neben der Eingangstür.</p>
-                    </div>
-                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
-                        <i data-lucide="flame" class="w-8 h-8 mb-2 text-wred"></i>
-                        <h4 class="font-bold text-lg mb-1">Feuerlöscher</h4>
-                        <p class="font-normal">Im Flur und markiert neben der großen Werkbank.</p>
-                    </div>
-                    <div class="bg-white p-4 border-3 border-ink rounded-xl" style="border: 3px solid #221f1c;">
-                        <i data-lucide="power-off" class="w-8 h-8 mb-2 text-wred"></i>
-                        <h4 class="font-bold text-lg mb-1">Not-Aus</h4>
-                        <p class="font-normal">Roter Pilzschalter am Stromkasten (Türe rechts).</p>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.16em] opacity-90">Rettungsdienst &amp; Feuerwehr</p>
+                        <p class="text-6xl md:text-7xl font-black leading-none tracking-tighter">112</p>
                     </div>
                 </div>
+                <div class="flex-1 bg-white text-ink rounded-xl p-4 border-2 border-ink">
+                    <p class="text-xs font-bold uppercase tracking-wide text-ink-soft mb-1">Adresse</p>
+                    <p class="font-bold text-lg leading-snug">Wilhelm-Reitzmayr-Straße 1, 86157 Augsburg</p>
+                    <p class="font-normal">Gemeinschaftswerkstatt im Erdgeschoss am Quartiersplatz</p>
+                </div>
+                <a href="tel:112" class="md:hidden brutal-btn bg-white text-ink px-6 py-3 inline-flex items-center justify-center gap-2 text-lg">
+                    <i data-lucide="phone" class="w-5 h-5" aria-hidden="true"></i> 112 anrufen
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- ===== Verhalten bei Unfällen ===== -->
+                <article class="brutal-box bg-card overflow-hidden flex flex-col">
+                    <h3 class="bg-lachs px-5 py-4 text-2xl font-black tracking-tight" style="border-bottom: 3px solid #221f1c;">Verhalten bei Unfällen</h3>
+                    <div class="bg-honeyw px-5 py-4 flex items-start gap-4" style="border-bottom: 2px solid #221f1c;">
+                        <figure class="sign"><img src="img/zeichen/warnung.jpg" alt=""><figcaption>Eigenschutz</figcaption></figure>
+                        <div>
+                            <h4 class="font-black text-lg leading-tight mb-1">Ruhe bewahren · Eigenschutz beachten</h4>
+                            <p class="font-normal">Maschine nur gefahrlos stoppen – vorgesehenen Not-Aus nutzen. Nicht in laufende Teile greifen. Unfallstelle sichern.</p>
+                            <p class="font-normal text-sm text-ink-soft mt-1">Not-Aus ersetzt bei späteren Eingriffen nicht die sichere Energietrennung.</p>
+                        </div>
+                    </div>
+                    <ol class="p-5 space-y-5 flex-1">
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/notruf.jpg" alt=""><figcaption>Notruf</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">1</span>Unfall melden</h4>
+                                <p class="font-normal"><b>112</b> rufen, Adresse nennen. Was ist passiert? Wie viele Verletzte? Fragen beantworten, Anweisungen befolgen – nicht vorzeitig auflegen.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/erste-hilfe.jpg" alt=""><figcaption>Erste Hilfe</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">2</span>Erste Hilfe leisten</h4>
+                                <p class="font-normal">Verletzte versorgen, nicht allein lassen. Bei Bedarf Erste-Hilfe-Kasten und Augendusche nutzen.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/wege-frei-halten.jpg" alt=""><figcaption>Zugang frei halten</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">3</span>Rettungsdienst einweisen</h4>
+                                <p class="font-normal">Eine Person weist die Rettungskräfte am Quartiersplatz ein. Wege frei halten, Unbeteiligte fernhalten.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <p class="bg-mintw px-5 py-3 font-bold" style="border-top: 2px solid #221f1c;">Danach: Werkstattwarte informieren, Erste Hilfe vertraulich dokumentieren.</p>
+                </article>
+
+                <!-- ===== Verhalten im Brandfall ===== -->
+                <article class="brutal-box bg-card overflow-hidden flex flex-col">
+                    <h3 class="bg-lachs px-5 py-4 text-2xl font-black tracking-tight" style="border-bottom: 3px solid #221f1c;">Verhalten im Brandfall</h3>
+                    <div class="bg-honeyw px-5 py-4 flex items-start gap-4" style="border-bottom: 2px solid #221f1c;">
+                        <figure class="sign"><img src="img/zeichen/brandgefahr.jpg" alt=""><figcaption>Brandgefahr</figcaption></figure>
+                        <div>
+                            <h4 class="font-black text-lg leading-tight mb-1">Ruhe bewahren</h4>
+                            <p class="font-normal">Andere warnen, Gefahrenbereich verlassen. <b>Eigenschutz geht vor!</b></p>
+                        </div>
+                    </div>
+                    <ol class="p-5 space-y-5 flex-1">
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/notruf.jpg" alt=""><figcaption>Notruf</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">1</span>Brand melden</h4>
+                                <p class="font-normal"><b>Feuerwehr 112</b> rufen, Adresse nennen. Brandort und Gefährdung schildern, Fragen beantworten, Anweisungen befolgen.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/sammelstelle.jpg" alt=""><figcaption>Sammelstelle</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">2</span>In Sicherheit bringen</h4>
+                                <p class="font-normal">Gefährdete Personen warnen und mitnehmen. Türen schließen, nicht abschließen. Keine verrauchten Wege – gekennzeichneten Fluchtwegen folgen.</p>
+                                <p class="font-bold mt-1">Sammelstelle: Quartiersplatz</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <figure class="sign"><img src="img/zeichen/feuerloescher.jpg" alt=""><figcaption>Feuerlöscher</figcaption></figure>
+                            <div>
+                                <h4 class="font-black text-lg leading-tight mb-1"><span class="step-no">3</span>Löschversuch nur ohne Eigengefährdung</h4>
+                                <p class="font-normal">Nur einen kleinen Entstehungsbrand bei freiem Rückweg löschen – sonst Abstand halten, Feuerwehr abwarten. Der Feuerlöscher hängt in der Werkstatt.</p>
+                                <p class="font-normal mt-1">Heiße oder rauchende Akkus nicht durchs Haus tragen.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </article>
             </div>
         </section>
 
