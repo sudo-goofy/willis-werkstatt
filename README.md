@@ -20,7 +20,6 @@ Ablauf vor Ort. Motto: **Safety First.**
 ```text
 werkstatt/
 ├── index.html              # Die App (eine einzelne HTML-Datei)
-├── Werkstattkonzept.pdf     # Ausführliches Werkstattkonzept
 ├── uvv/                     # UVV-Handbuch (Unfallverhütungsvorschriften)
 └── README.md
 ```
