@@ -5,28 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Willis Werkstatt | Safety First</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // WOGENAU-Farbwelt (aus wogenau.haus abgeleitet)
-        tailwind.config = { theme: { extend: { colors: {
-            paper:'#f5ead2', card:'#fffaf0', sand:'#e7d4ab', sandw:'#f4e6c9',
-            ink:'#221f1c', 'ink-soft':'#4c453c',
-            wred:'#c1343f', 'wred-dk':'#ad2f38',
-            mint:'#a5c8c0', 'mint-dk':'#85b5aa', mintw:'#eaf3f0',
-            lachs:'#e59c90', lachsw:'#fbeee9',
-            catgreen:'#9ac79a', catblue:'#7fabd6',
-            honey:'#f1d27a', honeyw:'#f8ead0'
-        }}}};
-    </script>
+    <!-- Alles lokal (Datenschutz): keine Anfragen an Google Fonts, Tailwind-CDN oder unpkg.
+         Tailwind-Build siehe tailwind.config.js; Schriften: Fira Code + Kirang Haerang (fonts/) -->
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Google Fonts: Fira Code (Body/UI) + Kirang Haerang (Wortbild „Willis Werkstatt") -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Kirang+Haerang&display=swap" rel="stylesheet">
+    <!-- Lucide Icons (fest auf v1.52.0) -->
+    <script src="js/lucide-1.52.0.min.js"></script>
 
     <style>
         /* Grundlegendes Styling im Matt Blease / Neo-Brutalismus Style */
@@ -107,6 +90,16 @@
             background: #221f1c; color: #fffaf0; font-size: 0.85rem; vertical-align: 0.1em;
         }
 
+        /* Rechtstexte (Datenschutz) */
+        .legal { max-width: 52rem; }
+        .legal h3 { font-size: 1.25rem; font-weight: 900; margin-top: 1.75rem; margin-bottom: 0.5rem; }
+        .legal h3:first-child { margin-top: 0; }
+        .legal p { font-weight: 400; margin-bottom: 0.75rem; }
+        .legal a { font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: #85b5aa; }
+        .legal a:hover { color: #ad2f38; }
+        /* Noch auszufüllende Angaben – fallen absichtlich auf */
+        .ph { background: #f1d27a; padding: 0 0.3em; border-radius: 4px; font-weight: 700; }
+
         /* Regel-Aufzählung mit Tinten-Punkt */
         .rule-list > li { position: relative; padding-left: 1.25rem; }
         .rule-list > li + li { margin-top: 0.75rem; }
@@ -143,6 +136,9 @@
             .transform { transform: none !important; }
         }
     </style>
+
+    <!-- Tailwind (lokal gebaut) – nach dem Inline-Style, damit Utilities wie bisher gewinnen -->
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-mint selection:text-ink">
 
@@ -749,7 +745,65 @@
             </div>
         </section>
 
+        <!-- ==================== VIEW: DATENSCHUTZ ==================== -->
+        <!-- Platzhalter (.ph) vor dem Veröffentlichen mit den Vereinsdaten füllen -->
+        <section id="view-datenschutz" class="view">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-mint p-2.5 brutal-box box-shadow-none" style="box-shadow: 3px 3px 0px #221f1c;">
+                    <i data-lucide="lock" class="w-8 h-8" stroke-width="2.5"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">Datenschutz</h2>
+                    <p class="text-sm md:text-base font-normal text-ink-soft">Datenschutzerklärung · Stand Oktober 2026</p>
+                </div>
+            </div>
+
+            <!-- Kurzfassung -->
+            <div class="brutal-box bg-mint p-5 mb-6">
+                <h3 class="text-xl font-black mb-3">Kurz gesagt</h3>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 font-normal">
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5 shrink-0" stroke-width="2.5"></i><span><b>Keine Cookies</b>, nichts wird in deinem Browser gespeichert.</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5 shrink-0" stroke-width="2.5"></i><span><b>Kein Tracking</b>, keine Analyse- oder Werbedienste.</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 mt-0.5 shrink-0" stroke-width="2.5"></i><span>Schriften und Icons kommen <b>von dieser Seite selbst</b>, nicht von Google o. Ä.</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="info" class="w-5 h-5 mt-0.5 shrink-0" stroke-width="2.5"></i><span>Nur unser Hosting-Anbieter <b>GitHub</b> verarbeitet deine IP-Adresse.</span></li>
+                </ul>
+            </div>
+
+            <div class="brutal-box bg-card p-5 md:p-7 legal">
+                <h3>1. Verantwortlich</h3>
+                <p>Willis Kollektiv e.V.<br>
+                   <span class="ph">[Straße und Hausnummer]</span><br>
+                   <span class="ph">[PLZ Ort]</span><br>
+                   E-Mail: <span class="ph">[E-Mail-Adresse]</span></p>
+
+                <h3>2. Hosting über GitHub Pages</h3>
+                <p>Diese Website wird über <b>GitHub Pages</b> bereitgestellt. Anbieter ist die GitHub, Inc., 88 Colin P. Kelly Jr. St., San Francisco, CA 94107, USA.</p>
+                <p>Beim Aufruf überträgt dein Browser technisch notwendige Daten an den Server, etwa <b>IP-Adresse</b>, Datum und Uhrzeit, die aufgerufene Datei und Angaben zum Browser. GitHub protokolliert und speichert die IP-Adresse von Besucher*innen <b>aus Sicherheitsgründen</b> – unabhängig davon, ob du bei GitHub angemeldet bist.</p>
+                <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO: Wir haben ein berechtigtes Interesse daran, die Website sicher und zuverlässig bereitzustellen. Die Daten können in die USA übermittelt werden; GitHub nimmt am <b>EU-U.S. Data Privacy Framework</b> teil, für das ein Angemessenheitsbeschluss der EU-Kommission besteht (Art. 45 DSGVO). Wie lange GitHub die Daten speichert, legt GitHub fest – Details in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+
+                <h3>3. Keine Cookies, kein Tracking</h3>
+                <p>Diese Website setzt <b>keine Cookies</b>, speichert nichts in deinem Browser und bindet <b>keine Analyse-, Werbe- oder Social-Media-Dienste</b> ein. Schriften, Icons und Gestaltung werden von dieser Website selbst geladen; dabei werden keine Daten an Dritte übertragen.</p>
+
+                <h3>4. Spenden und externe Links</h3>
+                <p>Der Spenden-Button und der QR-Code führen zum <b>PayPal-Pool</b> der Werkstatt. Der QR-Code enthält nur diesen Link. Daten werden erst übertragen, wenn du den Link öffnest – dann bist du bei PayPal (PayPal (Europe) S.à r.l. et Cie, S.C.A., Luxemburg), und es gilt die <a href="https://www.paypal.com/de/legalhub/privacy-full" target="_blank" rel="noopener">Datenschutzerklärung von PayPal</a>.</p>
+                <p>Das Gleiche gilt für andere Links, z. B. zu wogenau.haus oder zur KMK: Erst beim Klick verlässt du diese Website, und es gelten die Bestimmungen der jeweiligen Seite.</p>
+
+                <h3>5. Kontakt</h3>
+                <p>Wenn du uns per E-Mail schreibst, verarbeiten wir deine Angaben, um deine Anfrage zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO), und löschen sie, wenn sie dafür nicht mehr nötig sind.</p>
+
+                <h3>6. Deine Rechte</h3>
+                <p>Du hast das Recht auf <b>Auskunft</b> (Art. 15 DSGVO), <b>Berichtigung</b> (Art. 16), <b>Löschung</b> (Art. 17), <b>Einschränkung der Verarbeitung</b> (Art. 18), <b>Datenübertragbarkeit</b> (Art. 20) und <b>Widerspruch</b> gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Wende dich dafür an die oben genannte Adresse.</p>
+                <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren. Für uns zuständig ist das <b>Bayerische Landesamt für Datenschutzaufsicht</b> (BayLDA), Promenade 18, 91522 Ansbach, <a href="https://www.lda.bayern.de" target="_blank" rel="noopener">www.lda.bayern.de</a>.</p>
+            </div>
+        </section>
+
     </main>
+
+    <!-- Footer: rechtliche Links -->
+    <footer class="w-full max-w-6xl mx-auto px-4 md:px-6 pt-2 pb-6 md:pb-8 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-soft">
+        <span>© Willis Kollektiv e.V.</span>
+        <a href="#datenschutz" onclick="switchView('datenschutz'); return false;" class="font-bold underline decoration-2 underline-offset-4 decoration-mint-dk hover:text-ink">Datenschutz</a>
+    </footer>
 
     <!-- Floating Parent-Link (nur Desktop – mobil belegt die Bottom-Nav die Ecke) -->
     <a href="https://wogenau.haus" target="_blank" rel="noopener"
@@ -850,8 +904,13 @@
                 if(mobBtn) mobBtn.classList.add('active-nav');
             }
             
+            // Nur Datenschutz ist direkt verlinkbar (z. B. werkstatt.wogenau.haus/#datenschutz)
+            const hash = viewId === 'datenschutz' ? '#datenschutz' : '';
+            if (location.hash !== hash) history.replaceState(null, '', location.pathname + hash);
+
             window.scrollTo(0, 0);
         }
+        if (location.hash === '#datenschutz') switchView('datenschutz');
 
         // --- 2. MASCHINEN DATENBANK (Exakt nach PDF Konzept) ---
         const machines = [

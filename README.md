@@ -20,16 +20,25 @@ Ablauf vor Ort. Motto: **Safety First.**
 ```text
 werkstatt/
 ├── index.html              # Die App (eine einzelne HTML-Datei)
+├── css/site.css            # Tailwind, lokal gebaut (nicht von Hand bearbeiten)
+├── css/tailwind.src.css    # Eingabe für den Build (inkl. @font-face)
+├── tailwind.config.js      # Farben + Build-Konfiguration
+├── fonts/                  # Fira Code + Kirang Haerang (SIL OFL)
+├── js/                     # Lucide Icons, fest auf eine Version
+├── img/zeichen/            # Sicherheitszeichen aus den Aushängen
 ├── uvv/                     # UVV-Handbuch (Unfallverhütungsvorschriften)
 └── README.md
 ```
 
-Die App ist eine eigenständige `index.html` ohne Build-Schritt. Sie nutzt Tailwind CSS
-und Lucide Icons direkt über CDN.
+Aus Datenschutzgründen lädt die Seite **nichts von fremden Servern** (keine Google Fonts,
+kein CDN). Nach Änderungen an Tailwind-Klassen in `index.html` das CSS neu bauen:
+
+```bash
+npx tailwindcss@3.4.19 -i css/tailwind.src.css -o css/site.css --minify
+```
 
 ## Starten
 
-Online: <https://sudo-goofy.github.io/willis-werkstatt/> (gehostet über GitHub Pages,
-Branch `main`).
+Online: <https://werkstatt.wogenau.haus/> (gehostet über GitHub Pages, Branch `main`).
 
 Lokal: einfach `index.html` im Browser öffnen.
