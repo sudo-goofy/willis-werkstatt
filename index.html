@@ -922,13 +922,17 @@
                 if(mobBtn) mobBtn.classList.add('active-nav');
             }
             
-            // Nur Datenschutz ist direkt verlinkbar (z. B. werkstatt.wogenau.haus/#datenschutz)
-            const hash = viewId === 'datenschutz' ? '#datenschutz' : '';
-            if (location.hash !== hash) history.replaceState(null, '', location.pathname + hash);
+            setHash(viewHash[viewId] ? '#' + viewHash[viewId] : '');
 
             window.scrollTo(0, 0);
         }
-        if (location.hash === '#datenschutz') switchView('datenschutz');
+
+        // Adressen der Ansichten, z. B. werkstatt.wogenau.haus/#sicherheit
+        // Werkzeuge zusätzlich einzeln: #werkzeug/<id> (für die QR-Aufkleber an den Geräten)
+        const viewHash = { konzept: 'konzept', sicherheit: 'sicherheit', maschinen: 'werkzeug', notfall: 'notfall', datenschutz: 'datenschutz' };
+        function setHash(hash) {
+            if (location.hash !== hash) history.replaceState(null, '', location.pathname + location.search + hash);
+        }
 
         // --- 2. WERKZEUG (Betriebsanweisungen) ---
         // Kondensat der Betriebsanweisungen (08 Blau, 09 Grün, 10 Handwerkzeuge & Gefahrstoffe, Stand 30.10.2026).
@@ -988,6 +992,7 @@
             modalContent.style.maxWidth = '760px';
             const t = tools.find(x => x.id === toolId);
             const c = cats[t.cat];
+            setHash('#werkzeug/' + t.id);
             const sign = (file, caption) => `<figure class="sign"><img src="img/zeichen/${file}.jpg" alt=""><figcaption>${esc(caption)}</figcaption></figure>`;
 
             const full = t.ba.sections.map(s => `
@@ -1049,6 +1054,7 @@
         function closeModal() {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            if (location.hash.startsWith('#werkzeug/')) setHash('#werkzeug');
             // Fokus zurück auf das auslösende Element
             if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                 lastFocusedElement.focus();
@@ -1131,6 +1137,23 @@
             }
         });
 
+
+        // --- ADRESSEN: Ansicht bzw. Werkzeug aus der URL öffnen ---
+        function route() {
+            const [view, sub] = decodeURIComponent(location.hash.slice(1)).split('/');
+            if (view === 'minderjaehrige') {
+                switchView('konzept');
+                setHash('#minderjaehrige');
+                document.getElementById('minderjaehrige').scrollIntoView();
+                return;
+            }
+            const viewId = Object.keys(viewHash).find(k => viewHash[k] === view);
+            if (!viewId) return;
+            switchView(viewId);
+            if (viewId === 'maschinen' && sub && tools.some(t => t.id === sub)) openModal(sub);
+        }
+        route();
+        window.addEventListener('hashchange', route);
     </script>
 </body>
 </html>

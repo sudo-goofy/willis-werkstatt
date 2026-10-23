@@ -25,7 +25,9 @@ werkstatt/
 ├── tailwind.config.js      # Farben + Build-Konfiguration
 ├── fonts/                  # Fira Code + Kirang Haerang (SIL OFL)
 ├── js/                     # Lucide Icons, fest auf eine Version
-├── img/zeichen/            # Sicherheitszeichen aus den Aushängen
+├── img/zeichen/            # Sicherheitszeichen aus Aushängen und Betriebsanweisungen
+├── aufkleber.html          # Druckvorlage: QR-Aufkleber pro Werkzeug (erzeugt)
+├── scripts/aufkleber.js    # Erzeugt aufkleber.html aus den Werkzeug-Daten
 ├── uvv/                     # UVV-Handbuch (Unfallverhütungsvorschriften)
 └── README.md
 ```
@@ -35,6 +37,21 @@ kein CDN). Nach Änderungen an Tailwind-Klassen in `index.html` das CSS neu baue
 
 ```bash
 npx tailwindcss@3.4.19 -i css/tailwind.src.css -o css/site.css --minify
+```
+
+## Adressen & QR-Aufkleber
+
+Jede Ansicht hat eine eigene Adresse (`#konzept`, `#sicherheit`, `#werkzeug`, `#notfall`,
+`#datenschutz`), jedes Werkzeug zusätzlich `#werkzeug/<id>` – z. B.
+<https://werkstatt.wogenau.haus/#werkzeug/bandsaege>. Die Aufkleber in `aufkleber.html`
+verweisen genau dorthin. Neu erzeugen:
+
+```bash
+npm install --no-save qrcode@1.5.3
+```
+
+```bash
+node scripts/aufkleber.js qrcode index.html aufkleber.html
 ```
 
 ## Starten
