@@ -952,6 +952,29 @@
         const order = { green: 0, blue: 1, werkzeug: 2, stoffe: 3 };
         const byCat = (a, b) => order[a.cat] - order[b.cat];
 
+        // Minderjährige je Werkzeug: Aufsichtsstufe nach Klasse (5./6., 7./8., ab 9.) laut Nutzungshinweis,
+        // sonst Ausschluss bzw. Hinweis aus Nutzungshinweis/Betriebsanweisung
+        const minorAllowed = {
+            akkuschrauber: ['A', 'TS', 'S'], heissklebepistole: ['A', 'TS', 'S'], kompressor: ['A', 'TS', 'S'],
+            exzenterschleifer: ['TS', 'S', 'S'], 'schwing-deltaschleifer': ['TS', 'S', 'S'],
+            werkstattsauger: ['A', 'TS', 'S'], oszillationswerkzeug: ['A', 'TS', 'TS']
+        };
+        const minorNote = {
+            schlagbohrmaschine: ['no', 'Keine Benutzung durch Minderjährige (Betriebsanweisung).'],
+            'akkus-ladegeraete': ['no', 'Kein Laden durch Minderjährige.'],
+            handwerkzeug: ['hand', 'Nur Handwerkzeuge, die Alter und Erfahrung angemessen sind. Vor der 5. Klasse nur geeignete Handwerkzeuge – besondere Vorsicht bei Stemmeisen und Handsägen.'],
+            fahrrad: ['hand', 'Nur beaufsichtigt; Minderjährigen-Aushang beachten.']
+        };
+        function minorInfo(t) {
+            if (isTopic(t)) return null;
+            if (minorAllowed[t.id]) return { type: 'ok', levels: minorAllowed[t.id] };
+            if (minorNote[t.id]) return { type: minorNote[t.id][0], text: minorNote[t.id][1] };
+            if (t.cat === 'blue') return { type: 'no', text: 'Alle Maschinen der Kategorie Blau sind für Minderjährige ausgeschlossen.' };
+            return { type: 'no', text: 'Nicht im Nutzungshinweis aufgeführt – damit für Minderjährige ausgeschlossen.' };
+        }
+        // Schutzzeichen als Mini-Symbole auf den Karten
+        const signRow = t => t.signs.length ? `<span class="flex items-center gap-1.5">${t.signs.map(sg => `<img src="img/zeichen/${sg[0]}.jpg" alt="" title="${esc(sg[1])}" class="w-7 h-7" style="mix-blend-mode: multiply;">`).join('')}<span class="sr-only">Schutz: ${esc(t.signs.map(sg => sg[1]).join(', '))}</span></span>` : '';
+
         document.getElementById('tool-grid').innerHTML = tools.filter(t => t.vorhanden && !isTopic(t)).sort(byCat).map(t => `
             <button type="button" onclick="openModal('${t.id}')" aria-haspopup="dialog" class="brutal-box ${cats[t.cat].bg} p-5 text-left w-full flex flex-col gap-4 hover:-translate-y-1 transition-transform">
                 <div class="flex justify-between items-start w-full pb-3" style="border-bottom: 3px solid #221f1c;">
@@ -961,6 +984,10 @@
                 <div>
                     <h4 class="font-bold text-xl tracking-tight leading-tight mb-1">${t.name}${t.anzahl ? ` <span class="text-base font-normal">· ${t.anzahl}</span>` : ''}</h4>
                     <p class="font-bold text-sm underline decoration-2 underline-offset-4">Kurzfassung lesen &rarr;</p>
+                </div>
+                <div class="flex items-center justify-between gap-2 w-full mt-auto">
+                    ${signRow(t)}
+                    ${minorInfo(t)?.type === 'ok' ? `<span class="inline-flex items-center gap-1 bg-white rounded-full px-2 py-1 text-xs font-bold shrink-0" style="border: 2px solid #221f1c;" title="Für Minderjährige unter Aufsicht erlaubt"><i data-lucide="graduation-cap" class="w-4 h-4" aria-hidden="true"></i><span class="sr-only">Für Minderjährige unter Aufsicht erlaubt</span><span aria-hidden="true">U18</span></span>` : ''}
                 </div>
             </button>`).join('');
 
@@ -981,6 +1008,31 @@
                 <span class="cat-dot ${cats[t.cat].bg}" aria-hidden="true"></span>
             </button>`).join('');
         renderIcons();
+
+        function minorBox(t) {
+            const m = minorInfo(t);
+            if (!m) return '';
+            const link = `<button type="button" onclick="closeModal(); location.hash = 'minderjaehrige';" class="font-bold underline decoration-2 underline-offset-2 text-wred-dk hover:text-wred">Nutzungshinweis Minderjährige</button>`;
+            if (m.type === 'no') return `
+                <div class="flex items-start gap-2 bg-card rounded-xl p-3 mb-4" style="border: 2px dashed #4c453c;">
+                    <i data-lucide="ban" class="w-5 h-5 mt-0.5 shrink-0 text-wred-dk" aria-hidden="true"></i>
+                    <p class="font-normal"><b>Minderjährige:</b> ${m.text}</p>
+                </div>`;
+            if (m.type === 'hand') return `
+                <div class="flex items-start gap-2 bg-honeyw rounded-xl p-3 mb-4" style="border: 2px solid #221f1c;">
+                    <i data-lucide="graduation-cap" class="w-5 h-5 mt-0.5 shrink-0" aria-hidden="true"></i>
+                    <p class="font-normal"><b>Minderjährige:</b> ${m.text} Siehe ${link}.</p>
+                </div>`;
+            return `
+                <div class="bg-honeyw rounded-xl p-3 mb-4" style="border: 2px solid #221f1c;">
+                    <p class="flex items-center gap-2 font-bold mb-2"><i data-lucide="graduation-cap" class="w-5 h-5 shrink-0" aria-hidden="true"></i>Minderjährige: unter Aufsicht erlaubt</p>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold mb-2">
+                        ${['5./6. Klasse', '7./8. Klasse', 'ab 9. Klasse'].map((k, i) => `<div class="flex flex-col items-center gap-1"><span>${k}</span>${minorBadge(m.levels[i])}</div>`).join('')}
+                    </div>
+                    <p class="text-xs font-normal">${[...new Set(m.levels)].map(v => `<b>${v}</b> = ${minorLevel[v].desc}`).join(' · ')}</p>
+                    <p class="text-xs font-normal mt-1">Nur mit eingewiesener erwachsener Begleitperson aus der Bewohnerschaft und <b>Zustimmung der Sorgeberechtigten</b>. Siehe ${link}.</p>
+                </div>`;
+        }
 
         // --- 4. MODAL LOGIK ---
         const modal = document.getElementById('modal');
@@ -1019,6 +1071,8 @@
 
                 <div class="p-5 md:p-6 overflow-y-auto" style="max-height: 72vh;">
                     ${t.zugang ? `<p class="flex items-start gap-2 bg-mintw rounded-xl p-3 mb-4 font-bold" style="border: 2px solid #221f1c;"><i data-lucide="key-round" class="w-5 h-5 mt-0.5 shrink-0" aria-hidden="true"></i><span>${esc(t.zugang)}</span></p>` : ''}
+
+                    ${minorBox(t)}
 
                     <div class="flex items-center gap-4 bg-lachsw rounded-xl p-3 mb-4" style="border: 2px solid #221f1c;">
                         ${t.gefahr.sign ? `<img src="img/zeichen/${t.gefahr.sign}.jpg" alt="Warnzeichen" class="w-12 h-12 shrink-0" style="mix-blend-mode: multiply;">` : ''}
