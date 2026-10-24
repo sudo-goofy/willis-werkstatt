@@ -28,6 +28,8 @@ werkstatt/
 ├── img/zeichen/            # Sicherheitszeichen aus Aushängen und Betriebsanweisungen
 ├── aufkleber.html          # Druckvorlage: QR-Aufkleber pro Werkzeug (erzeugt)
 ├── scripts/aufkleber.js    # Erzeugt aufkleber.html aus den Werkzeug-Daten
+├── poster/                # A3-Poster Nutzungskonzept & Sicherheit (erzeugt, mit QR-Codes)
+├── scripts/poster.js       # Erzeugt die Poster
 ├── uvv/                     # UVV-Handbuch (Unfallverhütungsvorschriften)
 └── README.md
 ```
@@ -53,6 +55,18 @@ npm install --no-save qrcode@1.5.3
 ```bash
 node scripts/aufkleber.js qrcode index.html aufkleber.html
 ```
+
+## Poster (A3)
+
+`poster/nutzungskonzept.html` und `poster/sicherheit.html` sind Druckvorlagen im Look der Website,
+mit QR-Codes auf `#konzept`, `#sicherheit`, `#notfall` und den Spenden-Pool. Neu erzeugen und als PDF
+exportieren (PDFs landen im nicht versionierten Ordner `druck/`):
+
+```bash
+node scripts/poster.js qrcode
+```
+
+Drucken: A3 hochkant, Skalierung 100 % („Tatsächliche Größe“).
 
 ## Starten
 
