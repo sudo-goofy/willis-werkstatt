@@ -42,7 +42,7 @@ npx tailwindcss@3.4.19 -i css/tailwind.src.css -o css/site.css --minify
 ## Adressen & QR-Aufkleber
 
 Jede Ansicht hat eine eigene Adresse (`#konzept`, `#sicherheit`, `#werkzeug`, `#notfall`,
-`#datenschutz`), jedes Werkzeug zusätzlich `#werkzeug/<id>` – z. B.
+`#datenschutz`, `#impressum`), jedes Werkzeug zusätzlich `#werkzeug/<id>` – z. B.
 <https://werkstatt.wogenau.haus/#werkzeug/bandsaege>. Die Aufkleber in `aufkleber.html`
 verweisen genau dorthin. Neu erzeugen:
 
