@@ -158,7 +158,7 @@ const sicherheit = page('Sicherheit', 'p-sicherheit', `
             '<b>Stillstand abwarten</b>, Stecker ziehen oder Akku raus.',
             '<b>Absaugen</b> – nicht kehren, nicht abblasen.',
             '<b>Mängel melden</b> und kennzeichnen.',
-            'Blau &amp; Schlüssel sichern, <b>Laden beenden</b>.',
+            'Blaue Geräte &amp; Schlüssel wieder sichern, <b>Laden beenden</b>.',
             'Zuletzt: <b>Strom, Licht, Tür</b>.'])}
     </section>
 
