@@ -65,7 +65,7 @@ const konzept = page('Nutzungskonzept', 'p-konzept', `
             '<b>Kategorie Grün:</b> nach Grundeinweisung selbstständig.',
             '<b>Kategorie Blau:</b> zusätzliche Einweisung.',
             '<b>Gäste &amp; Minderjährige:</b> nur Grün, nur unter Aufsicht.'])}
-        ${key('var(--amber-50)', 'var(--amber)', 'volume-2', 'Laute Arbeiten', '9–12 · 14–19 Uhr<small>nie an Sonn- &amp; Feiertagen</small>', [
+        ${key('var(--amber-50)', 'var(--amber)', 'volume-2', 'Laute Arbeiten', '9–12 · 14–19 Uhr<small>bitte nicht an Sonn- und Feiertagen</small>', [
             'Rücksicht nehmen, <b>Tür zu</b>.',
             '<b>Keine Buchung</b> nötig.',
             'Große Projekte in den <b>Wandkalender</b>.'])}
@@ -141,7 +141,7 @@ const sicherheit = page('Sicherheit', 'p-sicherheit', `
             'Nur bekannte, geeignete Produkte.'])}
     </section>
 
-    <div class="strip" style="background:var(--amber-50)"><i data-lucide="volume-2" style="color:var(--amber)"></i><span><b>Laute Arbeiten:</b> 9–12 · 14–19 Uhr – nie an Sonn- &amp; Feiertagen.</span></div>
+    <div class="strip" style="background:var(--amber-50)"><i data-lucide="volume-2" style="color:var(--amber)"></i><span><b>Laute Arbeiten</b> nur 9–12 und 14–19 Uhr (bitte nicht an Sonn- und Feiertagen).</span></div>
 
     <h2 class="sec-title">Sicher arbeiten</h2>
     <section class="grid3">
